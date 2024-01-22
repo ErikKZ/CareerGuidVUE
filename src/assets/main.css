@@ -1,0 +1,17 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+body {
+  background-color: rgba(247, 254, 231,0.6);
+}
+
+.the-card {
+  overflow: hidden;
+  height: 220px;
+  @apply shadow-md rounded-xl;
+}
+
+/* @import 'tailwindcss/base';
+@import 'tailwindcss/components';
+@import 'tailwindcss/utilities'; */
