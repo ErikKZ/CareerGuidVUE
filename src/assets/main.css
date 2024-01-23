@@ -9,7 +9,7 @@ body {
 .the-card {
   overflow: hidden;
   height: 220px;
-  @apply shadow-md rounded-xl;
+  @apply shadow-md rounded-xl w-40 h-56;
 }
 
 /* @import 'tailwindcss/base';
