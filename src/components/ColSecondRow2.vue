@@ -1,14 +1,27 @@
 <script setup>
-  import CardDown from './CardDown.vue';
+import CardDown from './CardDown.vue'
+
+defineProps({
+  items: Array
+})
 const onClickImg = () => {
   alert('click!!')
-};
+}
 </script>
 
 <template>
-  <div class="flex bg-zinc-300 p-1 gap-2 overflow-x-scroll">
-    <card-down alt-txt="интересы|увлечения" title-txt="фотография" type-title="творчество" :on-click-img="onClickImg" image-url="1col.jpg" icon-url="/Icons/Heart.svg"/>
-    
+  <div class="flex  bg-zinc-300 p-1 gap-3 overflow-x-scroll">
+    <card-down
+      v-for="item in items"
+        :key="item.id"
+        :altTxt="item.altTxt"
+        :title-txt="item.titleTxt"
+        :type-title="item.typeTitle"
+        :on-click-img="onClickImg"
+        image-url="1col.jpg"
+        icon-url="/Icons/Heart.svg"
+    />
+
     <!-- <div style="min-width: 150px ">
           <img
             alt=""

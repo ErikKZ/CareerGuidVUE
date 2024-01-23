@@ -21,12 +21,15 @@
       :src="imageUrl"
       @click="onClickImg"
     />
-    <div class="pointer-events-none absolute  flex flex-col">
-      <img class="top-0 left-0  w-8 h-8" :src="iconUrl" alt="Heart" />
-      <s class="text-black uppercase text-xl">{{altTxt}}</s>
-      <h1 class="text-black uppercase font-bold text-xl">{{titleTxt}}</h1>
-      <p class="mb-2 whitespace-nowrap text-black font-bold text-xs">{{typeTitle}}</p>
-      
+    <div class="w-full pointer-events-none absolute top-1 left-0  flex flex-col">
+      <div class="flex mx-2 items-center mb-8">
+        <img class="w-4 h-4 mr-2" :src="iconUrl" alt={{altText}} />
+        <span class="text-black font-bold uppercase" style="font-size: 0.5rem">{{altTxt}}</span>
+      </div>
+      <div class="text-center ">
+        <p class="text-black -mb-1 uppercase font-bold text-xs">{{titleTxt}}</p>
+        <p class="whitespace-nowrap text-black font-bold text-xs">{{typeTitle}}</p>
+      </div>
     </div>
   </div>
 </template>

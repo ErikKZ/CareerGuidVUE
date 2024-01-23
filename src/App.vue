@@ -5,3 +5,6 @@
 <template>
   <ChoosingCard/>
 </template>
+
+
+
