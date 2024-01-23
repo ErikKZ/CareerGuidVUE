@@ -3,7 +3,7 @@
   defineProps({
     imageUrl: String,
     iconUrl: String,
-
+    onClickImg: Function
   })
 </script>
 
@@ -17,6 +17,7 @@
       class="cursor-pointer transition hover:-translate-y-1 the-card"
       srcset=""
       :src="imageUrl"
+      @click="onClickImg"
     />
     <div class="pointer-events-none absolute inset-1/4 text-center flex flex-col items-center">
       <h1 class="text-black uppercase font-bold text-xl">Само</h1>
