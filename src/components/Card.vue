@@ -6,9 +6,9 @@
     onClickImg: Function
   })
 </script>
-
+<!-- min-w-150px -->
 <template>
-  <div class="relative min-w-150px group-[&:hover]:">
+  <div class="relative  w-150 overflow-hidden group-[&:hover]: ">    
     <img
       alt="Интересы онлайн"
       loading="lazy"

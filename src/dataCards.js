@@ -1,6 +1,7 @@
 export default [
   {
     id: 1,
+    idType : 1, 
     altTxt: 'интересы|увлечения',
     titleTxt: 'Фотография',
     typeTitle: 'творчество',
@@ -8,6 +9,7 @@ export default [
   },
   {
     id: 2,
+    idType : 1, 
     altTxt: 'интересы|увлечения',
     titleTxt: 'Дизайн',
     typeTitle: 'творчество',
@@ -15,6 +17,7 @@ export default [
   },
   {
     id: 3,
+    idType : 1, 
     altTxt: 'интересы|увлечения',
     titleTxt: 'Музыка',
     typeTitle: 'творчество',
@@ -22,6 +25,7 @@ export default [
   },
   {
     id: 4,
+    idType : 1, 
     altTxt: 'интересы|увлечения',
     titleTxt: 'искусство',
     typeTitle: 'творчество',
@@ -29,6 +33,7 @@ export default [
   },
   {
     id: 5,
+    idType : 1, 
     altTxt: 'интересы|увлечения',
     titleTxt: 'режиссура',
     typeTitle: 'творчество',
@@ -36,6 +41,7 @@ export default [
   },
   {
     id: 6,
+    idType : 1, 
     altTxt: 'интересы|увлечения',
     titleTxt: 'стиль одежды',
     typeTitle: 'творчество',
@@ -43,6 +49,7 @@ export default [
   },
   {
     id: 7,
+    idType : 1, 
     altTxt: 'интересы|увлечения',
     titleTxt: 'архитектура',
     typeTitle: 'творчество',
@@ -50,6 +57,7 @@ export default [
   },
   {
     id: 8,
+    idType : 1, 
     altTxt: 'интересы|увлечения',
     titleTxt: 'красота человека',
     typeTitle: 'творчество',
@@ -57,9 +65,34 @@ export default [
   },
   {
     id: 9,
+    idType : 1, 
     altTxt: 'интересыувлечения',
     titleTxt: 'художественные тексты',
     typeTitle: 'творчество',
     iconUrl: 'Photo'
-  }
+  },
+  {
+    id: 1,
+    idType : 2, 
+    altTxt: 'интересы|увлечения',
+    titleTxt: 'Фотография',
+    typeTitle: 'творчество',
+    iconUrl: 'Photo'
+  },
+  {
+    id: 2,
+    idType : 2, 
+    altTxt: 'интересы|увлечения',
+    titleTxt: 'Дизайн',
+    typeTitle: 'творчество',
+    iconUrl: 'Photo'
+  },
+  {
+    id: 3,
+    idType : 2, 
+    altTxt: 'интересы|увлечения',
+    titleTxt: 'Музыка',
+    typeTitle: 'творчество',
+    iconUrl: 'Photo'
+  },
 ]

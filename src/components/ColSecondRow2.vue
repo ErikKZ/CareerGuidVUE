@@ -1,18 +1,38 @@
 <script setup>
-import CardDown from './CardDown.vue'
+import { defineProps,ref, computed, watchEffect } from 'vue';
 
-defineProps({
-  items: Array
-})
+import CardDown from './CardDown.vue';
+
+const props = defineProps({
+  items: Array,
+  targetIdCard: Number
+});
+
+const targetIdCard = ref(props.targetIdCard || 1);
+
+const filteredItems = computed(() => {
+  if (props.targetIdCard) {
+    return props.items.filter(item => item.idType === targetIdCard.value);
+  } else {
+    return props.items;
+  }
+});
+
+
 const onClickImg = () => {
-  alert('click!!')
+  targetIdCard.value = 1;
+  console.log(targetIdCard.value);
 }
+
+watchEffect(() => {
+  targetIdCard.value = props.targetIdCard ;
+});
 </script>
 
 <template>
   <div class="flex  bg-zinc-300 p-1 gap-3 overflow-x-scroll">
     <card-down
-      v-for="item in items"
+      v-for="item in filteredItems"
         :key="item.id"
         :altTxt="item.altTxt"
         :title-txt="item.titleTxt"
@@ -21,39 +41,5 @@ const onClickImg = () => {
         image-url="1col.jpg"
         icon-url="/Icons/Heart.svg"
     />
-
-    <!-- <div style="min-width: 150px ">
-          <img
-            alt=""
-            loading="lazy"
-            decoding="async"
-            data-nimg="1"
-            class="cursor-pointer the-card"
-            srcset=""
-            src="/Image/Yellow/1.jpg"
-          />
-        </div>
-        <div style="min-width: 150px">
-          <img
-            alt=""
-            loading="lazy"
-            decoding="async"
-            data-nimg="1"
-            class="cursor-pointer the-card"
-            srcset=""
-            src="/Image/Yellow/2.jpg"
-          />
-        </div>
-        <div style="min-width: 150px">
-          <img
-            alt=""
-            loading="lazy"
-            decoding="async"
-            data-nimg="1"
-            class="cursor-pointer the-card"
-            srcset=""
-            src="/Image/Yellow/3.jpg"
-          />
-        </div> -->
   </div>
 </template>
