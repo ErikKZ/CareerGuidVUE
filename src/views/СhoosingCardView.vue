@@ -1,40 +1,45 @@
 <script setup>
-  import { onMounted, ref, watch } from 'vue';
+import { onMounted, ref, watch } from 'vue'
 
-  import ColFirst from '@/components/ColFirst.vue';
-  import ColSecondRow1 from '@/components/ColSecondRow1.vue';
-  import ColSecondRow2 from '@/components/ColSecondRow2.vue';
-  import ColThird from '@/components/ColThird.vue';
+import ColFirst from '@/components/ColFirst.vue'
+import ColSecondRow1 from '@/components/ColSecondRow1.vue'
+import ColSecondRow2 from '@/components/ColSecondRow2.vue'
+import ColThird from '@/components/ColThird.vue'
 
-  const itemsCard = ref([]);
-  const fetchData = async() => {
-    try {
-      const response = await import('@/dataCards.js');
-      itemsCard.value = response.default;
-    } catch (error) {
-      console.error('Ошибка при загрузке данных:', error);
-    }
-  };
+const itemsCard = []
+const typeId = ref(1)
+const filteredItems = ref([]);
 
-  onMounted(async() => {
-    await fetchData();
-  })
+const fetchData = async () => {
+  try {
+    const response = await import('@/dataCards.js');
+    itemsCard.value = response.default;
+    // Инициализируйте отфильтрованный массив
+    filteredItems.value = itemsCard.value.filter(item => item.idType === 1);
+  } catch (error) {
+    console.error('Ошибка при загрузке данных:', error);
+  }
+};
 
+const handleTypeIdChange = (newTypeId) => {
+  typeId.value = newTypeId;
+  // Примените фильтрацию массива
+  filteredItems.value = itemsCard.value.filter(item => item.idType === newTypeId);
+};
 
-  watch(itemsCard, () => {
-    
-  })
+onMounted(async () => {
+  await  fetchData();
+})
 </script>
 
 <template>
   <div class="flex flex-row w-screen justify-center relative min-h-screen">
-    <col-first/>
+    <col-first @typeIdChange="handleTypeIdChange"/>
     <div class="grow flex flex-col" style="max-width: 1100px; min-width: 600px">
-      <col-second-row-1/>  
-      <col-second-row-2 :items="itemsCard" :targetIdCard="2"/>    
+      <col-second-row-1 />
+      <col-second-row-2 :items="filteredItems"/>
     </div>
-    <col-third/>
+    <col-third />
   </div>
   <!-- <router-view></router-view> -->
 </template>
-

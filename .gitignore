@@ -27,4 +27,7 @@ coverage
 *.sln
 *.sw?
 
+.public/*_.jpg
+
+
 *.tsbuildinfo
