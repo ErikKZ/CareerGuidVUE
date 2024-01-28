@@ -12,6 +12,26 @@ body {
   @apply shadow-md rounded-xl h-56 max-w-48 ;
 }
 
+.primary-button {
+  @apply bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded-lg;
+}
+
+.auxiliary-button {
+  @apply primary-button ;
+  @apply bg-slate-300
+}
+
+.danger-button {
+  @apply primary-button ;
+  @apply bg-red-500 hover:bg-red-700
+}
+ 
+.left-menu-menuLink {
+  @apply flex w-full outline-none items-center 
+        rounded-md text-lg leading-5 border-r-0 p-1 
+        hover:transition hover:outline-2 transition-colors hover:bg-white 
+        delay-150  hover:-translate-y-1 hover:scale-110  duration-300
+}
 /* @import 'tailwindcss/base';
 @import 'tailwindcss/components';
 @import 'tailwindcss/utilities'; */

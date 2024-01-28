@@ -92,7 +92,7 @@ export default [
     idType : 2, 
     altTxt: 'интересы|увлечения',
     titleTxt: 'Музыка',
-    typeTitle: 'творчество',
+    typeTitle: '',
     iconUrl: 'Photo'
   },
 ]

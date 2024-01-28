@@ -12,7 +12,7 @@ const filteredItems = ref([]);
 
 const fetchData = async () => {
   try {
-    const response = await import('@/dataCards.js');
+    const response = await import('@/EngDataCards.js');
     itemsCard.value = response.default;
     // Инициализируйте отфильтрованный массив
     filteredItems.value = itemsCard.value.filter(item => item.idType === 1);
