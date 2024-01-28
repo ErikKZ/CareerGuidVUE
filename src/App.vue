@@ -6,6 +6,7 @@
 <template>
   <AdminBoardView/>
   <!-- <ChoosingCard/> -->
+  
 </template>
 
 

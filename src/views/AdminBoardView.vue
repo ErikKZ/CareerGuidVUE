@@ -99,7 +99,7 @@
               </svg>
             </div>
             <span class="text-gray-700 ml-4 mr-2 text-left">Обучение</span></a
-          ><a class="left-menu-menuLink" target="_blank" href="https://t.me/Kseniya_2008"
+          ><a class="left-menu-menuLink" target="_blank" href="https://t.me/"
             ><div class="bg-white rounded-xl p-2 border shadow-lg">
               <svg
                 aria-hidden="true"
