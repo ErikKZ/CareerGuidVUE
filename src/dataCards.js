@@ -2,97 +2,113 @@ export default [
   {
     id: 1,
     idType : 1, 
-    altTxt: 'интересы|увлечения',
     titleTxt: 'Фотография',
     typeTitle: 'творчество',
-    iconUrl: 'Photo'
+    iconUrl: 'Photo',
+    isSelected: false
   },
   {
     id: 2,
     idType : 1, 
-    altTxt: 'интересы|увлечения',
     titleTxt: 'Дизайн',
     typeTitle: 'творчество',
-    iconUrl: 'Photo'
+    iconUrl: 'Photo',
+    isSelected: false
   },
   {
     id: 3,
     idType : 1, 
-    altTxt: 'интересы|увлечения',
     titleTxt: 'Музыка',
     typeTitle: 'творчество',
-    iconUrl: 'Photo'
+    iconUrl: 'Photo',
+    isSelected: false
   },
   {
     id: 4,
     idType : 1, 
-    altTxt: 'интересы|увлечения',
     titleTxt: 'искусство',
     typeTitle: 'творчество',
-    iconUrl: 'Photo'
+    iconUrl: 'Photo',
+    isSelected: false
   },
   {
     id: 5,
     idType : 1, 
-    altTxt: 'интересы|увлечения',
     titleTxt: 'режиссура',
     typeTitle: 'творчество',
-    iconUrl: 'Photo'
+    iconUrl: 'Photo',
+    isSelected: false
   },
   {
     id: 6,
     idType : 1, 
-    altTxt: 'интересы|увлечения',
     titleTxt: 'стиль одежды',
     typeTitle: 'творчество',
-    iconUrl: 'Photo'
+    iconUrl: 'Photo',
+    isSelected: false
   },
   {
     id: 7,
     idType : 1, 
-    altTxt: 'интересы|увлечения',
     titleTxt: 'архитектура',
     typeTitle: 'творчество',
-    iconUrl: 'Photo'
+    iconUrl: 'Photo',
+    isSelected: false
   },
   {
     id: 8,
     idType : 1, 
-    altTxt: 'интересы|увлечения',
     titleTxt: 'красота человека',
     typeTitle: 'творчество',
-    iconUrl: 'Photo'
+    iconUrl: 'Photo',
+    isSelected: false
   },
   {
     id: 9,
     idType : 1, 
-    altTxt: 'интересыувлечения',
     titleTxt: 'художественные тексты',
     typeTitle: 'творчество',
-    iconUrl: 'Photo'
+    iconUrl: 'Photo',
+    isSelected: false
   },
   {
-    id: 1,
+    id: 10,
     idType : 2, 
-    altTxt: 'интересы|увлечения',
     titleTxt: 'Фотография',
-    typeTitle: 'творчество',
-    iconUrl: 'Photo'
+    typeTitle: '',
+    iconUrl: 'Photo',
+    isSelected: false
   },
   {
-    id: 2,
+    id: 11,
     idType : 2, 
-    altTxt: 'интересы|увлечения',
     titleTxt: 'Дизайн',
-    typeTitle: 'творчество',
-    iconUrl: 'Photo'
+    typeTitle: '',
+    iconUrl: 'Photo',
+    isSelected: false
   },
   {
-    id: 3,
+    id: 12,
     idType : 2, 
-    altTxt: 'интересы|увлечения',
     titleTxt: 'Музыка',
     typeTitle: '',
-    iconUrl: 'Photo'
+    iconUrl: 'Photo',
+    isSelected: false
+  },
+  {
+    id: 13,
+    idType : 3, 
+    titleTxt: 'престиж компании',
+    typeTitle: '',
+    iconUrl: 'Photo',
+    isSelected: false
+  },
+  {
+    id: 14,
+    idType : 3, 
+    titleTxt: 'внешний вид',
+    typeTitle: '',
+    iconUrl: 'Photo',
+    isSelected: false
   },
 ]

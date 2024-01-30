@@ -27,7 +27,7 @@
         <span class="text-black font-bold uppercase" style="font-size: 0.5rem">{{altTxt}}</span>
       </div>
       <div class="text-center ">
-        <p class="text-black -mb-1 uppercase font-bold text-2xs">{{titleTxt}}</p>
+        <p class="text-black -mb-1 uppercase font-bold text-xs">{{titleTxt}}</p>
         <p class="whitespace-nowrap text-black font-bold text-xs">{{typeTitle}}</p>
       </div>
     </div>

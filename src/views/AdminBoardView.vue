@@ -1,10 +1,11 @@
 <script setup>
-  import Consutations from  './adminBoard/Consutations.vue'
+// import { useRouter } from 'vue-router';
+// const router = useRouter()
   
 </script>
 
 <template>
-  <div class="w-screen min-h-screen bg-gray-100 flex gap-3">
+  <div class="w-screen min-h-screen  flex gap-3">
     <div class="flex flex-col h-screen" style="min-width: 300px">
       <div class="my-8 flex justify-center">
         <div class="rounded-xl overflow-hidden">
@@ -23,8 +24,8 @@
       </div>
       <div class="flex flex-col p-3 gap-3 h-full justify-between">
         <div>
-          <a class="left-menu-menuLink" href="/adminBoard"
-            ><div class="bg-white rounded-xl p-2 border shadow-lg">
+          <router-link to="/adminBoard/consults" class="left-menu-menuLink">
+            <div class="bg-white rounded-xl p-2 border shadow-lg">
               <svg
                 aria-hidden="true"
                 focusable="false"
@@ -41,9 +42,10 @@
                 ></path>
               </svg>
             </div>
-            <span class="text-gray-700 ml-4 mr-2 text-left">Список консультаций</span></a
-          ><a class="left-menu-menuLink" href="/adminBoard/settings"
-            ><div class="bg-white rounded-xl p-2 border shadow-lg">
+            <span class="text-gray-700 ml-4 mr-2 text-left">Список консультаций</span>
+          </router-link>
+          <router-link to="/adminBoard/settings" class="left-menu-menuLink">
+            <div class="bg-white rounded-xl p-2 border shadow-lg">
               <svg
                 aria-hidden="true"
                 focusable="false"
@@ -60,9 +62,10 @@
                 ></path>
               </svg>
             </div>
-            <span class="text-gray-700 ml-4 mr-2 text-left">Настройки кабинета</span></a
-          ><a class="left-menu-menuLink" href="/adminBoard/payments"
-            ><div class="bg-white rounded-xl p-2 border shadow-lg">
+            <span class="text-gray-700 ml-4 mr-2 text-left">Настройки кабинета</span>
+          </router-link>
+          <router-link to="/adminBoard/payments" class="left-menu-menuLink">
+            <div class="bg-white rounded-xl p-2 border shadow-lg">
               <svg
                 aria-hidden="true"
                 focusable="false"
@@ -79,9 +82,10 @@
                 ></path>
               </svg>
             </div>
-            <span class="text-gray-700 ml-4 mr-2 text-left">Платежи</span></a
-          ><a class="left-menu-menuLink" href="/adminBoard/tutorial"
-            ><div class="bg-white rounded-xl p-2 border shadow-lg">
+            <span class="text-gray-700 ml-4 mr-2 text-left">Платежи</span>
+          </router-link>
+          <router-link to="/adminBoard/tutorials" class="left-menu-menuLink">
+            <div class="bg-white rounded-xl p-2 border shadow-lg">
               <svg
                 aria-hidden="true"
                 focusable="false"
@@ -98,9 +102,10 @@
                 ></path>
               </svg>
             </div>
-            <span class="text-gray-700 ml-4 mr-2 text-left">Обучение</span></a
-          ><a class="left-menu-menuLink" target="_blank" href="https://t.me/"
-            ><div class="bg-white rounded-xl p-2 border shadow-lg">
+            <span class="text-gray-700 ml-4 mr-2 text-left">Обучение</span>
+          </router-link>
+          <router-link to="/adminBoard/_blank" class="left-menu-menuLink">
+            <div class="bg-white rounded-xl p-2 border shadow-lg">
               <svg
                 aria-hidden="true"
                 focusable="false"
@@ -117,14 +122,14 @@
                 ></path>
               </svg>
             </div>
-            <span class="text-gray-700 ml-4 mr-2 text-left">Задать вопрос</span></a
-          >
+            <span class="text-gray-700 ml-4 mr-2 text-left">Задать вопрос</span>
+          </router-link>
         </div>
-        <div class="text-center"><button class="danger-button">Выход</button></div>
+        <div class="text-end"><button class="danger-button">Выход</button></div>
       </div>
     </div>
     <div class="grow h-screen overflow-y-scroll">
-      <Consutations/>
+      <RouterView />
     </div>
   </div>
 </template>

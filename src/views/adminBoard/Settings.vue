@@ -15,7 +15,7 @@
         <form class="col-span-2">
           <div class="flex flex-col mb-4">
             <span class="font-bold mb-2 ml-0.5">Имя Фамилия</span
-            ><input class="rounded-xl border-2 p-3" type="text" value="Ekaterina " name="name" />
+            ><input class="rounded-xl border-2 p-3" type="text" value="Нурик" name="name" />
           </div>
           <div class="flex flex-col mb-4">
             <span class="font-bold mb-2 ml-0.5">Специализация</span
@@ -26,7 +26,7 @@
             ><input
               class="rounded-xl border-2 p-3"
               type="email"
-              value="erworh@gmail.com"
+              value="Nurik211@gmail.com"
               name="email"
             />
           </div>
