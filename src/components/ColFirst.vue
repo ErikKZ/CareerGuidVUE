@@ -5,7 +5,7 @@ import { useColStore } from '@/stores/colStore';
 const colStore = useColStore()
 const onClickImg = (type) => {
   colStore.selectedArray = colStore.cards.filter(c => c.idType === type && !c.isSelected)
-  
+  // console.log(colStore.cards)
   // switch (type) {
   //   case 1:
   //     colStore.yellowArray = colStore.cards.filter(c => c.idType === type);

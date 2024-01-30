@@ -6,8 +6,10 @@ const colStore = useColStore();
 
 const onClickImg = (id) => {
   try {
-    useColStore().setCardSelected(id, true);
-    // console.log(colStore.cards)
+    useColStore().setCardSelected(id);
+    // console.log(colStore.allselectedArray)
+    // console.log(colStore.selectedArray)
+    
   } catch (error) {
     console.error('Error in onClickImg:', error);
   }
@@ -18,7 +20,6 @@ const onClickImg = (id) => {
   //   }
   // });
 };
-
 
 const getImageUrl = (idType) => {
   switch (idType) {
