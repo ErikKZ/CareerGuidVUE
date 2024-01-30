@@ -10,7 +10,7 @@ const colStore = useColStore()
 <template>
   <div class="grow text-lg text-center flex flex-row justify-center items-center bg-stone-200">
     <div
-      v-if="!colStore.allselectedArray"
+      v-if="colStore.allselectedArray.length === 0"
       class="grow text-lg text-center flex flex-row justify-center items-center bg-stone-200"
     >
       Выберите карты из колоды
@@ -25,12 +25,10 @@ const colStore = useColStore()
         <card-down
           v-for="item in colStore.allselectedArray"
           :key="item.id"
-          :altTxt=getAltText(item.idType)
+          :id-type="item.idType"
           :title-txt="item.titleTxt"
           :type-title="item.typeTitle"
           :on-click-img="() => onClickImg(item.id)"
-          :image-url=getImageUrl(item.idType)
-          :icon-url=getIconUrl(item.idType)
         />
       </div>
     </div>

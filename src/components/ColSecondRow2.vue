@@ -5,11 +5,11 @@ import { useColStore } from '@/stores/colStore';
 const colStore = useColStore();
 
 const onClickImg = (id) => {
+  console.log(id)
   try {
     useColStore().setCardSelected(id);
-    // console.log(colStore.allselectedArray)
-    // console.log(colStore.selectedArray)
-    
+    // colStore.allselectedArray.filter(card => card.idType === 2)
+    // console.log(colStore.allselectedArray.value)
   } catch (error) {
     console.error('Error in onClickImg:', error);
   }
@@ -21,44 +21,6 @@ const onClickImg = (id) => {
   // });
 };
 
-const getImageUrl = (idType) => {
-  switch (idType) {
-    case 1:
-      return 'Yellow.jpg';
-    case 2:
-      return 'Turquoise.jpg';
-    case 3:
-      return 'Red.jpg';
-    default:
-      return 'Yellow.jpg';
-  }
-};
-
-const getIconUrl = (idType) => {
-  switch (idType) {
-    case 1:
-      return '/Icons/Heart.svg';
-    case 2:
-      return '/Icons/Star.svg';
-    case 3:
-      return '/Icons/Diamond.svg';
-    default:
-      return '/Icons/Star.svg';
-  }
-};
-
-const getAltText = (idType) => {
-  switch (idType) {
-    case 1:
-      return 'интересы|увлечения';
-    case 2:
-      return 'способности|навыки';
-    case 3:
-      return 'условия|мотивиция';
-    default:
-      return 'неизвестно';
-  }
-};
 </script>
 
 <template>
@@ -66,12 +28,10 @@ const getAltText = (idType) => {
     <card-down 
       v-for="item in colStore.selectedArray"
         :key="item.id"
-        :altTxt=getAltText(item.idType)
+        :id-type="item.idType"
         :title-txt="item.titleTxt"
         :type-title="item.typeTitle"
         :on-click-img="() => onClickImg(item.id)"
-        :image-url=getImageUrl(item.idType)
-        :icon-url=getIconUrl(item.idType)
     />
   </div>
 </template>
