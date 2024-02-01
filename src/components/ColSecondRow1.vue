@@ -36,7 +36,7 @@ const onDblClickImg = (id, idType) => {
           :id-type="item.idType"
           :title-txt="item.titleTxt"
           :type-title="item.typeTitle"
-          @dblclick-img="() => onDblClickImg(item.id, item.idType)"
+          @dblclick="() => onDblClickImg(item.id, item.idType)"
         />
       </div>
     </div>
