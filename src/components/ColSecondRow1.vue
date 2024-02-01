@@ -1,8 +1,15 @@
 <script setup>
-import { useColStore } from '@/stores/colStore'
 import CardDown from './CardDown.vue';
+import { useColStore } from '@/stores/colStore'
 
-const colStore = useColStore()
+const colStore = useColStore();
+const onDblClickImg = (id, idType) => {
+  console.log('onDblClickImg:', id, idType);
+};
+
+// function onDblClickImg (id, idType){
+//   console.log('onDblClickImg:', id, idType);
+// };
 
 </script>
 
@@ -18,17 +25,18 @@ const colStore = useColStore()
     </div>
     <div
       v-else
-      class="grow flex flex-wrap p-3 gap-3 justify-center items-center overflow-y-scroll relative"
+      class="grow flex flex-wrap p-3 gap-3 justify-center items-center overflow-y-auto relative"
       style="max-height: calc(100vh - 240px)"
     >
-      <div class="relative" style="opacity: 1" draggable="true" data-handler-id="T8">
+      <div 
+        v-for="item in colStore.filteredTypeArray"
+        :key="item.id"
+        class="relative" style="opacity: 1" draggable="true" data-handler-id="T8">
         <card-down
-          v-for="item in colStore.allselectedArray"
-          :key="item.id"
           :id-type="item.idType"
           :title-txt="item.titleTxt"
           :type-title="item.typeTitle"
-          :on-click-img="() => onClickImg(item.id)"
+          @dblclick-img="() => onDblClickImg(item.id, item.idType)"
         />
       </div>
     </div>

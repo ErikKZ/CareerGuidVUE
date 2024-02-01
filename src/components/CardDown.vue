@@ -1,10 +1,7 @@
 <script setup>
-  // import { defineProps } from '@vue';
+  const props = defineProps(['onClickImg', 'onDblClickImg', 'idType', 'titleTxt', 'typeTitle']);
   
-  const props = defineProps(['on-click-img','idType', 
-                            'titleTxt', 'typeTitle']);
-  
-  const getImageUrl = () => {
+const getImageUrl = () => {
   switch (props.idType) {
     case 1:
       return 'Yellow.jpg';
@@ -63,6 +60,7 @@ const getAltText = () => {
       srcset=""
       :src="getImageUrl()"
       @click="onClickImg"
+      @dblclick="onDblClickImg"
     />
     <div class="w-full pointer-events-none absolute top-1 left-0  flex flex-col">
       <div class="flex mx-2 items-center mb-8">

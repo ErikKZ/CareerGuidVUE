@@ -3,8 +3,13 @@ import Card from './Card.vue'
 import { useColStore } from '@/stores/colStore';
 
 const colStore = useColStore()
-const onClickImg = (type) => {
-  colStore.selectedArray = colStore.cards.filter(c => c.idType === type && !c.isSelected)
+const onClickImg = (type) => {  // colStore.selectedArray = colStore.cards.filter(c => c.idType === type && !c.isSelected)
+  colStore.selectedArray = colStore.cards.filter(card =>
+              !colStore.allselectedArray.some(selectedCard => 
+              selectedCard.id === card.id) && card.idType === type
+  );
+  colStore.filteredTypeArray = colStore.getFilteredCards(type); 
+  // console.log(colStore.filteredTypeArray);
 }
 </script>   
 

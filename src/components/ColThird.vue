@@ -13,6 +13,8 @@
         >
           Запрос</button
         ><a class="block" href="/dashboard"
+
+        
           ><button
             class="mt-4 transition cursor-pointer bg-blue-700 w-full rounded-xl py-3 uppercase text-pretty text-white text-xs font-bold disabled:bg-slate-300 hover:bg-lime-600 active:bg-lime-700"
             type="button"

@@ -4,12 +4,10 @@ import { useColStore } from '@/stores/colStore';
 
 const colStore = useColStore();
 
-const onClickImg = (id) => {
-  console.log(id)
+
+const onClickImg = (id, idType) => {
   try {
-    useColStore().setCardSelected(id);
-    // colStore.allselectedArray.filter(card => card.idType === 2)
-    // console.log(colStore.allselectedArray.value)
+    useColStore().setCardSelected(id, idType);
   } catch (error) {
     console.error('Error in onClickImg:', error);
   }
@@ -21,6 +19,7 @@ const onClickImg = (id) => {
   // });
 };
 
+
 </script>
 
 <template>
@@ -31,7 +30,7 @@ const onClickImg = (id) => {
         :id-type="item.idType"
         :title-txt="item.titleTxt"
         :type-title="item.typeTitle"
-        :on-click-img="() => onClickImg(item.id)"
+        @click="() => onClickImg(item.id, item.idType)"
     />
   </div>
 </template>
