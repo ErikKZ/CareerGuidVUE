@@ -4,12 +4,11 @@ import { useColStore } from '@/stores/colStore';
 
 const colStore = useColStore()
 const onClickImg = (type) => {  // colStore.selectedArray = colStore.cards.filter(c => c.idType === type && !c.isSelected)
-  colStore.selectedArray = colStore.cards.filter(card =>
-              !colStore.allselectedArray.some(selectedCard => 
-              selectedCard.id === card.id) && card.idType === type
-  );
+  colStore.selectedArray = colStore.getCardsForRow2(type);
   colStore.filteredTypeArray = colStore.getFilteredCards(type); 
-  // console.log(colStore.filteredTypeArray);
+  colStore.lengthCardsRow1= colStore.getLenghtCardsRow1(type); 
+  console.log(colStore.lengthCardsRow1);
+  
 }
 </script>   
 

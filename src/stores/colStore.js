@@ -6,7 +6,7 @@ export const useColStore = defineStore('colStore', () => {
   const selectedArray = ref([])
   const allselectedArray = ref([])
   const filteredTypeArray = ref([])
-  
+
 
   const cards = ref(dataCards)
   
@@ -35,6 +35,14 @@ export const useColStore = defineStore('colStore', () => {
   const getFilteredCards = (idType) => {
     return allselectedArray.value.filter((item) => item.idType === idType);
   }
+  
+
+  
+  const getCardsForRow2 = (idType) => {
+    return cards.value.filter(card =>
+      !allselectedArray.value.some(selectedCard => 
+      selectedCard.id === card.id) && card.idType === idType)
+  }
 
   return {
     selectedArray,
@@ -42,6 +50,7 @@ export const useColStore = defineStore('colStore', () => {
     setCardSelected,
     getFilteredCards,
     removeCardSelected,
+    getCardsForRow2,
     filteredTypeArray,
     cards
   }

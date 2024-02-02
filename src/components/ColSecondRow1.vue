@@ -7,9 +7,7 @@ const onDblClickImg = (id, idType) => {
   console.log('onDblClickImg:', id, idType);
 };
 
-// function onDblClickImg (id, idType){
-//   console.log('onDblClickImg:', id, idType);
-// };
+
 
 </script>
 
@@ -17,7 +15,7 @@ const onDblClickImg = (id, idType) => {
 <template>
   <div class="grow text-lg text-center flex flex-row justify-center items-center bg-stone-200">
     <div
-      v-if="colStore.allselectedArray.length === 0"
+      v-if="colStore.filteredTypeArray.length === 0"
       class="grow text-lg text-center flex flex-row justify-center items-center bg-stone-200"
     >
       Выберите карты из колоды
