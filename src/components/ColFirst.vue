@@ -6,9 +6,7 @@ const colStore = useColStore()
 const onClickImg = (type) => {  // colStore.selectedArray = colStore.cards.filter(c => c.idType === type && !c.isSelected)
   colStore.selectedArray = colStore.getCardsForRow2(type);
   colStore.filteredTypeArray = colStore.getFilteredCards(type); 
-  colStore.lengthCardsRow1= colStore.getLenghtCardsRow1(type); 
-  console.log(colStore.lengthCardsRow1);
-  
+
 }
 </script>   
 
