@@ -23,17 +23,36 @@ const moveAt = (pageX, pageY, cardElement) => {
   let newLeft = pageX - shiftX - boundaries.left;
   let newTop = pageY - shiftY - boundaries.top;
 
-  let rightEdge = parentElement.clientWidth - cardElement.clientWidth;
-  if (newLeft > rightEdge) newLeft = rightEdge;  // Блок не перемещается за правую границу родительского элемента
+  var maxX = boundaries.right - cardElement.width;
+  var maxY = boundaries.bottom - cardElement.height;
 
-  let bottomEdge = parentElement.clientHeight - cardElement.clientHeight;
-  if (newTop > bottomEdge) newTop = bottomEdge; // Блок не перемещается за
+  if (newLeft < boundaries.left) {
+    newLeft = boundaries.left;
+  } else if (newLeft > maxX) {
+    newLeft = maxX;
+  }
+
+  if (newTop < boundaries.top) {
+    newTop = boundaries.top;
+  } else if (newTop > maxY) {
+    newTop = maxY;
+  }
+
+
+  // let newLeft = pageX - shiftX - boundaries.left;
+  // let newTop = pageY - shiftY - boundaries.top;
+
+  // let rightEdge = parentElement.clientWidth - cardElement.clientWidth;
+  // if (newLeft > rightEdge) newLeft = rightEdge;  // Блок не перемещается за правую границу родительского элемента
+
+  // let bottomEdge = parentElement.clientHeight - cardElement.clientHeight;
+  // if (newTop > bottomEdge) newTop = bottomEdge; // Блок не перемещается за
   
-  // Блок не должен выходить за верхнюю границу родительского элемента
-  if (newTop < 0) newTop = 0;
+  // // Блок не должен выходить за верхнюю границу родительского элемента
+  // if (newTop < 0) newTop = 0;
 
-  // Блок не должен выходить за левую границу родительского элемента
-  if (newLeft < 0) newLeft = 0;
+  // // Блок не должен выходить за левую границу родительского элемента
+  // if (newLeft < 0) newLeft = 0;
 
   // Применяем расчетные координаты к блоку
   cardElement.style.left = `${newLeft}px`;
