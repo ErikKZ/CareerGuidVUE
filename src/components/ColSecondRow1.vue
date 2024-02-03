@@ -6,7 +6,7 @@ import { useColStore } from '@/stores/colStore'
 
 const colStore = useColStore();
 const onDblClickImg = (id, idType) => {
-  console.log('onDblClickImg:', id, idType);
+  colStore.removeCardSelected(id, idType);
 };
 
 const cardMove = ref({});
@@ -23,7 +23,7 @@ const moveAt = (pageX, pageY, cardElement) => {
   let newLeft = pageX - shiftX - boundaries.left;
   let newTop = pageY - shiftY - boundaries.top;
 
-  var maxX = boundaries.right - cardElement.width;
+  var maxX = boundaries.right - cardElement.width ;
   var maxY = boundaries.bottom - cardElement.height;
 
   if (newLeft < boundaries.left) {
@@ -115,7 +115,6 @@ onUnmounted(() => {
         v-for="item in colStore.filteredTypeArray"
         :key="item.id"
         :ref="el => { cardMove[item.id] = el }"
-        @mousedown="($event) => dragStart($event, item.id)"
         @dragstart.prevent
         class="relative" style="opacity: 1" draggable="true" data-handler-id="T8">
         <card-down

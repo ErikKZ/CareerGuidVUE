@@ -60,7 +60,6 @@ const getAltText = () => {
       srcset=""
       :src="getImageUrl()"
       @click="onClickImg"
-      @dblclick="onDblClickImg"
     />
     <div class="w-full pointer-events-none absolute top-1 left-0  flex flex-col">
       <div class="flex mx-2 items-center mb-8">
