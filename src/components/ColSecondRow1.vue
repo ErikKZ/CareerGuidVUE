@@ -15,9 +15,30 @@ let shiftX = 0;
 let shiftY = 0;
 
 const moveAt = (pageX, pageY, cardElement) => {
-  console.log(cardElement);
-  cardElement.style.left =  `${pageX - shiftX}`;
-  cardElement.style.top =  `${pageY - shiftY}`;
+  
+  const parentElement = cardElement.parentElement; // Родительский элемент для перемещаемого блока
+  const boundaries = parentElement.getBoundingClientRect(); 
+  console.log(parentElement);
+
+  let newLeft = pageX - shiftX - boundaries.left;
+  let newTop = pageY - shiftY - boundaries.top;
+
+  let rightEdge = parentElement.clientWidth - cardElement.clientWidth;
+  if (newLeft > rightEdge) newLeft = rightEdge;  // Блок не перемещается за правую границу родительского элемента
+
+  let bottomEdge = parentElement.clientHeight - cardElement.clientHeight;
+  if (newTop > bottomEdge) newTop = bottomEdge; // Блок не перемещается за
+  
+  // Блок не должен выходить за верхнюю границу родительского элемента
+  if (newTop < 0) newTop = 0;
+
+  // Блок не должен выходить за левую границу родительского элемента
+  if (newLeft < 0) newLeft = 0;
+
+  // Применяем расчетные координаты к блоку
+  cardElement.style.left = `${newLeft}px`;
+  cardElement.style.top = `${newTop}px`;
+
 };
 
 const dragStart = (event, id) => {
@@ -30,20 +51,24 @@ const dragStart = (event, id) => {
 
   cardElement.style.position = 'absolute';
   cardElement.style.zIndex = '1000';
-  document.body.append(cardElement.value);
+  // document.body.append(cardElement.value);
+  const parentElement = cardElement.parentElement.parentElement; // Получаем родительский элемент родительского элемента
+
+  parentElement.appendChild(cardElement);
   
   moveAt(event.pageX, event.pageY, cardElement);
 
-  document.addEventListener('mousemove', (event) => onMouseMove(event, id));
+  document.addEventListener('mousemove', (event) => onMouseMove(event, cardElement));
 
+  
   cardElement.onmouseup = () => {
     document.removeEventListener('mousemove', onMouseMove);
     cardElement.value.onmouseup = null;
   };
 };
 
-const onMouseMove = (event, id) => {
-  moveAt(event.pageX, event.pageY, cardMove.value[id]);
+const onMouseMove = (event, cardElement) => {
+  moveAt(event.pageX, event.pageY, cardElement);
 };
 
 
