@@ -9,53 +9,56 @@ const onDblClickImg = (id, idType) => {
   console.log('onDblClickImg:', id, idType);
 };
 
-let balls = ref({});
+const cardMove = ref({});
+
 let shiftX = 0;
 let shiftY = 0;
 
-const moveAt = (event, id) => {
-  const ball = balls.value[id];
-  if (!ball) return;
+const moveAt = (pageX, pageY, cardElement) => {
+  // const ball = cardMove.value[id];
+  cardElement.style.left = `${pageX - shiftX}px`;
+  cardElement.style.top = `${pageY - shiftY}px`;
+};
 
-  ball.style.left = `${event.pageX - shiftX}px`;
-  ball.style.top = `${event.pageY - shiftY}px`;
-  onUnmounted(() => {
-    document.removeEventListener('mousemove', onMouseMove);
-  });
-}
+const dragStart = (event, id) => {
+  const cardElement = cardMove.value[id];
 
-const dragStart = (id) => (event) => {
-  
-  const ball = balls.value[id];
-  console.log('dragStart:', id, ball);
+  if(!cardElement) return;
+  console.log(cardElement, cardMove.value[0], id);
+  shiftX = event.clientX - cardElement.getBoundingClientRect().left;
+  shiftY = event.clientY - cardElement.getBoundingClientRect().top;
 
-  if (!ball) return;
+  cardElement.value.style.position = 'absolute';
+  cardElement.value.style.zIndex = '1000';
+  document.body.append(cardElement.value);
 
-  shiftX = event.clientX - ball.getBoundingClientRect().left;
-  shiftY = event.clientY - ball.getBoundingClientRect().top;
+  moveAt(event.pageX, event.pageY, cardElement);
 
-  ball.style.position = 'absolute';
-  ball.style.zIndex = '1000';
-  document.body.append(ball);
-  moveAt(event, id);
   document.addEventListener('mousemove', onMouseMove);
-  ball.onmouseup = () => {
+
+  cardElement.value.onmouseup = () => {
     document.removeEventListener('mousemove', onMouseMove);
-    ball.onmouseup = null;
+    cardElement.value.onmouseup = null;
   };
-}
+};
 
 const onMouseMove = (event) => {
-  Object.keys(balls.value).forEach((id) => {
-    moveAt(event, id);
-  });
-}
+  moveAt(event.pageX, event.pageY);
+};
 
 onMounted(() => {
-  Object.values(balls.value).forEach((ball) => {
-    if (!ball) return;
-    ball.style.position = 'absolute';
+  for (let i = 0; i < 14; i++) {
+    cardMove.value[i] = null;
+  }
+  // console.log("getFilteredCards", cardMove.value)  
+  colStore.filteredTypeArray.forEach(item => {
+    cardMove.value[item.id] = null;
+    ;
   });
+})
+
+onUnmounted(() => {
+  document.removeEventListener('mousemove', onMouseMove);
 });
 </script>
 
@@ -77,7 +80,8 @@ onMounted(() => {
       <div 
         v-for="item in colStore.filteredTypeArray"
         :key="item.id"
-        @mousedown="($event) => { console.log('mousedown'); dragStart(item.id)($event) }"
+        :ref="el => { if (el) cardMove.value[item.id] = el }"
+        @mousedown="($event) => dragStart($event, item.id)"
         @dragstart.prevent
         class="relative" style="opacity: 1" draggable="true" data-handler-id="T8">
         <card-down
