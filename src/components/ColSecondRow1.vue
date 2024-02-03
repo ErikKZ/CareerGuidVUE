@@ -1,5 +1,5 @@
 <script setup>
-import { ref, onMounted, onUnmounted } from 'vue';
+import { ref, onUnmounted } from 'vue';
 
 import CardDown from './CardDown.vue';
 import { useColStore } from '@/stores/colStore'
@@ -15,26 +15,26 @@ let shiftX = 0;
 let shiftY = 0;
 
 const moveAt = (pageX, pageY, cardElement) => {
-  // const ball = cardMove.value[id];
-  cardElement.style.left = `${pageX - shiftX}px`;
-  cardElement.style.top = `${pageY - shiftY}px`;
+  console.log(cardElement);
+  cardElement.style.left =  `${pageX - shiftX}`;
+  cardElement.style.top =  `${pageY - shiftY}`;
 };
 
 const dragStart = (event, id) => {
   const cardElement = cardMove.value[id];
 
   if(!cardElement) return;
-  console.log(cardElement, cardMove.value[0], id);
+  // console.log(cardElement,  id);
   shiftX = event.clientX - cardElement.getBoundingClientRect().left;
   shiftY = event.clientY - cardElement.getBoundingClientRect().top;
 
   cardElement.style.position = 'absolute';
   cardElement.style.zIndex = '1000';
   document.body.append(cardElement.value);
-
+  
   moveAt(event.pageX, event.pageY, cardElement);
 
-  document.addEventListener('mousemove', onMouseMove);
+  document.addEventListener('mousemove', (event) => onMouseMove(event, id));
 
   cardElement.onmouseup = () => {
     document.removeEventListener('mousemove', onMouseMove);
@@ -42,20 +42,10 @@ const dragStart = (event, id) => {
   };
 };
 
-const onMouseMove = (event) => {
-  moveAt(event.pageX, event.pageY);
+const onMouseMove = (event, id) => {
+  moveAt(event.pageX, event.pageY, cardMove.value[id]);
 };
 
-onMounted(() => {
-  // for (let i = 0; i < 14; i++) {
-  //   cardMove.value[i] = null;
-  // }
-  // // console.log("getFilteredCards", cardMove.value)  
-  // colStore.filteredTypeArray.forEach(item => {
-  //   cardMove.value[item.id] = null;
-  //   ;
-  // });
-})
 
 onUnmounted(() => {
   document.removeEventListener('mousemove', onMouseMove);
@@ -80,7 +70,7 @@ onUnmounted(() => {
       <div 
         v-for="item in colStore.filteredTypeArray"
         :key="item.id"
-        :ref="el => { console.log('el', el); if (el) cardMove.value[item.id] = el }"
+        :ref="el => { cardMove[item.id] = el }"
         @mousedown="($event) => dragStart($event, item.id)"
         @dragstart.prevent
         class="relative" style="opacity: 1" draggable="true" data-handler-id="T8">
