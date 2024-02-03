@@ -28,15 +28,15 @@ const dragStart = (event, id) => {
   shiftX = event.clientX - cardElement.getBoundingClientRect().left;
   shiftY = event.clientY - cardElement.getBoundingClientRect().top;
 
-  cardElement.value.style.position = 'absolute';
-  cardElement.value.style.zIndex = '1000';
+  cardElement.style.position = 'absolute';
+  cardElement.style.zIndex = '1000';
   document.body.append(cardElement.value);
 
   moveAt(event.pageX, event.pageY, cardElement);
 
   document.addEventListener('mousemove', onMouseMove);
 
-  cardElement.value.onmouseup = () => {
+  cardElement.onmouseup = () => {
     document.removeEventListener('mousemove', onMouseMove);
     cardElement.value.onmouseup = null;
   };
@@ -47,14 +47,14 @@ const onMouseMove = (event) => {
 };
 
 onMounted(() => {
-  for (let i = 0; i < 14; i++) {
-    cardMove.value[i] = null;
-  }
-  // console.log("getFilteredCards", cardMove.value)  
-  colStore.filteredTypeArray.forEach(item => {
-    cardMove.value[item.id] = null;
-    ;
-  });
+  // for (let i = 0; i < 14; i++) {
+  //   cardMove.value[i] = null;
+  // }
+  // // console.log("getFilteredCards", cardMove.value)  
+  // colStore.filteredTypeArray.forEach(item => {
+  //   cardMove.value[item.id] = null;
+  //   ;
+  // });
 })
 
 onUnmounted(() => {
@@ -80,7 +80,7 @@ onUnmounted(() => {
       <div 
         v-for="item in colStore.filteredTypeArray"
         :key="item.id"
-        :ref="el => { if (el) cardMove.value[item.id] = el }"
+        :ref="el => { console.log('el', el); if (el) cardMove.value[item.id] = el }"
         @mousedown="($event) => dragStart($event, item.id)"
         @dragstart.prevent
         class="relative" style="opacity: 1" draggable="true" data-handler-id="T8">
