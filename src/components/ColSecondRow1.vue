@@ -1,14 +1,100 @@
 <script setup>
+import { ref, onUnmounted } from 'vue';
+
 import CardDown from './CardDown.vue';
 import { useColStore } from '@/stores/colStore'
 
 const colStore = useColStore();
 const onDblClickImg = (id, idType) => {
-  console.log('onDblClickImg:', id, idType);
+  colStore.removeCardSelected(id, idType);
+  console.log(colStore.selectedArray)
+};
+
+const cardMove = ref({});
+
+let shiftX = 0;
+let shiftY = 0;
+
+const moveAt = (pageX, pageY, cardElement) => {
+  
+  const parentElement = cardElement.parentElement; // Родительский элемент для перемещаемого блока
+  const boundaries = parentElement.getBoundingClientRect(); 
+  console.log(parentElement);
+
+  let newLeft = pageX - shiftX - boundaries.left;
+  let newTop = pageY - shiftY - boundaries.top;
+
+  var maxX = boundaries.right - cardElement.width ;
+  var maxY = boundaries.bottom - cardElement.height;
+
+  if (newLeft < boundaries.left) {
+    newLeft = boundaries.left;
+  } else if (newLeft > maxX) {
+    newLeft = maxX;
+  }
+
+  if (newTop < boundaries.top) {
+    newTop = boundaries.top;
+  } else if (newTop > maxY) {
+    newTop = maxY;
+  }
+
+
+  // let newLeft = pageX - shiftX - boundaries.left;
+  // let newTop = pageY - shiftY - boundaries.top;
+
+  // let rightEdge = parentElement.clientWidth - cardElement.clientWidth;
+  // if (newLeft > rightEdge) newLeft = rightEdge;  // Блок не перемещается за правую границу родительского элемента
+
+  // let bottomEdge = parentElement.clientHeight - cardElement.clientHeight;
+  // if (newTop > bottomEdge) newTop = bottomEdge; // Блок не перемещается за
+  
+  // // Блок не должен выходить за верхнюю границу родительского элемента
+  // if (newTop < 0) newTop = 0;
+
+  // // Блок не должен выходить за левую границу родительского элемента
+  // if (newLeft < 0) newLeft = 0;
+
+  // Применяем расчетные координаты к блоку
+  cardElement.style.left = `${newLeft}px`;
+  cardElement.style.top = `${newTop}px`;
+
+};
+
+const dragStart = (event, id) => {
+  const cardElement = cardMove.value[id];
+
+  if(!cardElement) return;
+  // console.log(cardElement,  id);
+  shiftX = event.clientX - cardElement.getBoundingClientRect().left;
+  shiftY = event.clientY - cardElement.getBoundingClientRect().top;
+
+  cardElement.style.position = 'absolute';
+  cardElement.style.zIndex = '1000';
+  // document.body.append(cardElement.value);
+  const parentElement = cardElement.parentElement.parentElement; // Получаем родительский элемент родительского элемента
+
+  parentElement.appendChild(cardElement);
+  
+  moveAt(event.pageX, event.pageY, cardElement);
+
+  document.addEventListener('mousemove', (event) => onMouseMove(event, cardElement));
+
+  
+  cardElement.onmouseup = () => {
+    document.removeEventListener('mousemove', onMouseMove);
+    cardElement.value.onmouseup = null;
+  };
+};
+
+const onMouseMove = (event, cardElement) => {
+  moveAt(event.pageX, event.pageY, cardElement);
 };
 
 
-
+onUnmounted(() => {
+  document.removeEventListener('mousemove', onMouseMove);
+});
 </script>
 
 
@@ -29,6 +115,8 @@ const onDblClickImg = (id, idType) => {
       <div 
         v-for="item in colStore.filteredTypeArray"
         :key="item.id"
+        :ref="el => { cardMove[item.id] = el }"
+        @dragstart.prevent
         class="relative" style="opacity: 1" draggable="true" data-handler-id="T8">
         <card-down
           :id-type="item.idType"
