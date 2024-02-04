@@ -7,6 +7,7 @@ import { useColStore } from '@/stores/colStore'
 const colStore = useColStore();
 const onDblClickImg = (id, idType) => {
   colStore.removeCardSelected(id, idType);
+  console.log(colStore.selectedArray)
 };
 
 const cardMove = ref({});

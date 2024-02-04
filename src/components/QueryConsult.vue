@@ -33,7 +33,7 @@ const modalQueryStore = useModalQueryStore()
       </div>
       <div class="font-bold text-xl mb-6">Запрос на консультацию</div>
       <form class="block" style="width: 50vw">
-        <textarea rows="20" class="w-full shadow p-5" name="text"></textarea>
+        <textarea  rows="20" class="w-full shadow p-5" name="text"></textarea>
         <div class="text-center mt-5">
           <button class="primary-button" type="submit">Сохранить</button>
         </div>

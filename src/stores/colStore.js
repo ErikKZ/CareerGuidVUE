@@ -14,6 +14,7 @@ export const useColStore = defineStore('colStore', () => {
     const cardIndex = allselectedArray.value.findIndex((card) => card.id === id);
     if (cardIndex !== -1) {
       selectedArray.value.push(...allselectedArray.value.splice(cardIndex, 1));
+      selectedArray.value.sort((a, b) => a.id - b.id);
       filteredTypeArray.value = getFilteredCards(idType);
     } else {
       alert('Card not found: ' + id);
@@ -32,7 +33,8 @@ export const useColStore = defineStore('colStore', () => {
   }
 
   const getFilteredCards = (idType) => {
-    return allselectedArray.value.filter((item) => item.idType === idType);
+    return allselectedArray.value
+        .filter((item) => item.idType === idType);
   }
   
 
