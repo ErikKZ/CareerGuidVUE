@@ -1,7 +1,9 @@
 <script setup>
+import { computed } from 'vue';
+
   const props = defineProps(['onClickImg', 'onDblClickImg', 'idType', 'titleTxt', 'typeTitle']);
   
-const getImageUrl = () => {
+const imgUrl = computed(() => {
   switch (props.idType) {
     case 1:
       return 'Yellow.jpg';
@@ -12,9 +14,8 @@ const getImageUrl = () => {
     default:
       return 'Yellow.jpg';
   }
-};
-
-const getIconUrl = () => {
+})  
+const iconUrl = computed(() => {
   switch (props.idType) {
     case 1:
       return '/Icons/Heart.svg';
@@ -25,9 +26,8 @@ const getIconUrl = () => {
     default:
       return '/Icons/Star.svg';
   }
-};
-
-const getAltText = () => {
+})  
+const altText = computed(() => {
   switch (props.idType) {
     case 1:
       return 'интересы|увлечения';
@@ -38,34 +38,27 @@ const getAltText = () => {
     default:
       return 'неизвестно';
   }
-};
-  // defineProps({
-  //   imageUrl: String,
-  //   iconUrl: String,
-  //   altTxt: String, 
-  //   titleTxt: String, 
-  //   typeTitle: String, 
-  //   onClickImg: Function
-  // })
+})  
+
+
 </script>
 
 <template>
   <div class="relative min-w-150px group-[&:hover]:">
     <img
-      :alt=getAltText()
+      :alt="altText"
       loading="lazy"
       decoding="async"
       data-nimg="1"
       class="cursor-pointer transition hover:-translate-y-1 the-card"
       srcset=""
-      :src="getImageUrl()"
+      :src="imgUrl"
       @click="onClickImg"
-      @dblclick="onDblClickImg"
     />
     <div class="w-full pointer-events-none absolute top-1 left-0  flex flex-col">
       <div class="flex mx-2 items-center mb-8">
-        <img class="w-4 h-4 mr-2" :src="getIconUrl()" alt={{getAltText()}} />
-        <span class="text-black font-bold uppercase" style="font-size: 0.5rem">{{getAltText()}}</span>
+        <img class="w-4 h-4 mr-2" :src="iconUrl" :alt="altText" />
+        <span class="text-black font-bold uppercase" style="font-size: 0.5rem">{{altText}}</span>
       </div>
       <div class="text-center ">
         <p class="text-black -mb-1 uppercase font-bold text-xs">{{titleTxt}}</p>
