@@ -1,7 +1,18 @@
 <script setup>
 import { useModalQueryStore } from '@/stores/modalQueryStore'
+import {ref,nextTick, watch } from 'vue';
 
 const modalQueryStore = useModalQueryStore()
+
+const textArea = ref(null)
+
+watch(() => modalQueryStore.isModalOpen, async (newVal) => {
+  if (newVal) {
+    await nextTick()
+    textArea.value.focus()
+  }
+})
+
 </script>
 
 <template>
@@ -33,7 +44,7 @@ const modalQueryStore = useModalQueryStore()
       </div>
       <div class="font-bold text-xl mb-6">Запрос на консультацию</div>
       <form class="block" style="width: 50vw">
-        <textarea  rows="20" class="w-full shadow p-5" name="text"></textarea>
+        <textarea ref="textArea" rows="20" class="w-full shadow p-5" name="text"></textarea>
         <div class="text-center mt-5">
           <button class="primary-button" type="submit">Сохранить</button>
         </div>

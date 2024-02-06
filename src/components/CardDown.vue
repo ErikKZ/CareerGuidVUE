@@ -53,6 +53,7 @@ const altText = computed(() => {
       class="cursor-pointer transition hover:-translate-y-1 the-card"
       srcset=""
       :src="imgUrl"
+      style="user-drag: none; user-select: none;"
       @click="onClickImg"
     />
     <div class="w-full pointer-events-none absolute top-1 left-0  flex flex-col">

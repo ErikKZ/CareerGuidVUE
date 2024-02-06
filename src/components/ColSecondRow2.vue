@@ -7,7 +7,7 @@ const colStore = useColStore();
 
 const onClickImg = (id, idType) => {
   try {
-    useColStore().setCardSelected(id, idType);
+      useColStore().setCardSelected(id, idType);
   } catch (error) {
     console.error('Error in onClickImg:', error);
   }

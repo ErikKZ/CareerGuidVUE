@@ -1,102 +1,68 @@
 <script setup>
-import { ref, onUnmounted } from 'vue';
+import CardDown from './CardDown.vue'
+import { ref, onMounted } from 'vue'
+import { UseDraggable } from '@vueuse/components'
 
-import CardDown from './CardDown.vue';
 import { useColStore } from '@/stores/colStore'
 
-const colStore = useColStore();
+const colStore = useColStore()
+const dragAndDropContainer = ref()
+
 const onDblClickImg = (id, idType) => {
-  colStore.removeCardSelected(id, idType);
-  console.log(colStore.selectedArray)
-};
+  colStore.removeCardSelected(id, idType)
+}
 
-const cardMove = ref({});
+const restrictMovement = (x, y, item, container) => {
+  // Получаем прямоугольник, описывающий границы контейнера
+  const containerRect = container.getBoundingClientRect()
+  console.log(x, y)
+  // Устанавливаем границы прямоугольника
+  const leftBoundary = containerRect.left
+  const rightBoundary = containerRect.right
+  const topBoundary = containerRect.top
+  const bottomBoundary = containerRect.bottom
 
-let shiftX = 0;
-let shiftY = 0;
-
-const moveAt = (pageX, pageY, cardElement) => {
-  
-  const parentElement = cardElement.parentElement; // Родительский элемент для перемещаемого блока
-  const boundaries = parentElement.getBoundingClientRect(); 
-  console.log(parentElement);
-
-  let newLeft = pageX - shiftX - boundaries.left;
-  let newTop = pageY - shiftY - boundaries.top;
-
-  var maxX = boundaries.right - cardElement.width ;
-  var maxY = boundaries.bottom - cardElement.height;
-
-  if (newLeft < boundaries.left) {
-    newLeft = boundaries.left;
-  } else if (newLeft > maxX) {
-    newLeft = maxX;
+  // Если элемент выходит за пределы этих границ, мы перемещаем его обратно
+  if (item.x < leftBoundary) {
+    item.x = leftBoundary
+  } else if (item.x + item.width > rightBoundary) {
+    item.x = rightBoundary - item.width
   }
 
-  if (newTop < boundaries.top) {
-    newTop = boundaries.top;
-  } else if (newTop > maxY) {
-    newTop = maxY;
+  if (item.y < topBoundary) {
+    item.y = topBoundary
+  } else if (item.y + item.height > bottomBoundary) {
+    item.y = bottomBoundary - item.height
+  }
+}
+
+const onDragUpdate = (coord, event) => {
+  const firstRowRect = dragAndDropContainer.value.getBoundingClientRect()
+  const imageElement = dragAndDropContainer.value.querySelector('img') 
+  const imageRect = imageElement.getBoundingClientRect()
+  
+  console.log(coord.x, coord.y, firstRowRect.left, firstRowRect, imageRect.height)
+  if (coord.x < firstRowRect.left) {
+    coord.x = firstRowRect.left
+    event.preventDefault()
+  } else if (coord.x > firstRowRect.right - imageRect.width) {
+    coord.x = firstRowRect.right - imageRect.width
+    event.preventDefault()
   }
 
+  if (coord.y < 0) {
+    coord.y = 0
+    event.preventDefault()
+  } else if (coord.y > firstRowRect.bottom) {
+    coord.y = firstRowRect.bottom
+    event.preventDefault()
+  }
+}
 
-  // let newLeft = pageX - shiftX - boundaries.left;
-  // let newTop = pageY - shiftY - boundaries.top;
-
-  // let rightEdge = parentElement.clientWidth - cardElement.clientWidth;
-  // if (newLeft > rightEdge) newLeft = rightEdge;  // Блок не перемещается за правую границу родительского элемента
-
-  // let bottomEdge = parentElement.clientHeight - cardElement.clientHeight;
-  // if (newTop > bottomEdge) newTop = bottomEdge; // Блок не перемещается за
-  
-  // // Блок не должен выходить за верхнюю границу родительского элемента
-  // if (newTop < 0) newTop = 0;
-
-  // // Блок не должен выходить за левую границу родительского элемента
-  // if (newLeft < 0) newLeft = 0;
-
-  // Применяем расчетные координаты к блоку
-  cardElement.style.left = `${newLeft}px`;
-  cardElement.style.top = `${newTop}px`;
-
-};
-
-const dragStart = (event, id) => {
-  const cardElement = cardMove.value[id];
-
-  if(!cardElement) return;
-  // console.log(cardElement,  id);
-  shiftX = event.clientX - cardElement.getBoundingClientRect().left;
-  shiftY = event.clientY - cardElement.getBoundingClientRect().top;
-
-  cardElement.style.position = 'absolute';
-  cardElement.style.zIndex = '1000';
-  // document.body.append(cardElement.value);
-  const parentElement = cardElement.parentElement.parentElement; // Получаем родительский элемент родительского элемента
-
-  parentElement.appendChild(cardElement);
-  
-  moveAt(event.pageX, event.pageY, cardElement);
-
-  document.addEventListener('mousemove', (event) => onMouseMove(event, cardElement));
-
-  
-  cardElement.onmouseup = () => {
-    document.removeEventListener('mousemove', onMouseMove);
-    cardElement.value.onmouseup = null;
-  };
-};
-
-const onMouseMove = (event, cardElement) => {
-  moveAt(event.pageX, event.pageY, cardElement);
-};
-
-
-onUnmounted(() => {
-  document.removeEventListener('mousemove', onMouseMove);
-});
+onMounted(() => {
+  dragAndDropContainer.value = document.querySelector('.drag-n-drop-container')
+})
 </script>
-
 
 <template>
   <div class="grow text-lg text-center flex flex-row justify-center items-center bg-stone-200">
@@ -109,22 +75,26 @@ onUnmounted(() => {
     </div>
     <div
       v-else
-      class="grow flex flex-wrap p-3 gap-3 justify-center items-center overflow-y-auto relative"
+      ref="dragAndDropContainer"
+      class="drag-n-drop-container grow flex flex-wrap p-3 gap-3 justify-center items-center overflow-y-auto relative"
       style="max-height: calc(100vh - 240px)"
     >
-      <div 
+      <UseDraggable
+        :container-element="dragAndDropContainer"
         v-for="item in colStore.filteredTypeArray"
         :key="item.id"
-        :ref="el => { cardMove[item.id] = el }"
-        @dragstart.prevent
-        class="relative" style="opacity: 1" draggable="true" data-handler-id="T8">
+        :exact="false"
+        :on-move="(x, event) => onDragUpdate(x, event)"
+        @dblclick="() => onDblClickImg(item.id, item.idType)"
+        style="opacity: 1; position: fixed; "
+      >
         <card-down
           :id-type="item.idType"
           :title-txt="item.titleTxt"
           :type-title="item.typeTitle"
-          @dblclick="() => onDblClickImg(item.id, item.idType)"
+          
         />
-      </div>
+      </UseDraggable>
     </div>
   </div>
 </template>
