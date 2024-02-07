@@ -1,16 +1,25 @@
 <script setup>
+import { ref, onMounted, computed } from 'vue'
 import CardDown from './CardDown.vue'
-import { ref, onMounted } from 'vue'
+
 import { UseDraggable } from '@vueuse/components'
 
 import { useColStore } from '@/stores/colStore'
+import { useColSecRow2Store } from '@/stores/colSecRow2Store'
 
 const colStore = useColStore()
+const colSecRow2Store = useColSecRow2Store()
 const dragAndDropContainer = ref()
 
 const onDblClickImg = (id, idType) => {
   colStore.removeCardSelected(id, idType)
 }
+
+const draggableStyle = computed(() => {
+  return {
+    position: colSecRow2Store.dialog ? 'fixed' : 'absolute',
+  }
+})
 
 const restrictMovement = (x, y, item, container) => {
   // Получаем прямоугольник, описывающий границы контейнера
@@ -86,7 +95,7 @@ onMounted(() => {
         :exact="false"
         :on-move="(x, event) => onDragUpdate(x, event)"
         @dblclick="() => onDblClickImg(item.id, item.idType)"
-        style="opacity: 1; position: fixed; "
+        :style="draggableStyle"
       >
         <card-down
           :id-type="item.idType"

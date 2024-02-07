@@ -9,14 +9,6 @@ export const useColStore = defineStore('colStore', () => {
 
   const cards = ref(dataCards)
 
-  const updateCoordinates = (itemId, newX, newY) => {
-    const item = filteredTypeArray.value.find(item => item.id === itemId);
-
-    if (item) {
-      item.x = newX;
-      item.y = newY;
-    }
-  }
   
   const removeCardSelected = (id, idType) => {
     const cardIndex = allselectedArray.value.findIndex((card) => card.id === id);
@@ -61,7 +53,6 @@ export const useColStore = defineStore('colStore', () => {
     removeCardSelected,
     getCardsForRow2,
     filteredTypeArray,
-    updateCoordinates,
     cards
   }
 })

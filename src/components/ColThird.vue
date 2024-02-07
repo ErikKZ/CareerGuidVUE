@@ -1,5 +1,8 @@
 <script setup>
 import { useModalQueryStore } from '@/stores/modalQueryStore';
+import { useColSecRow2Store } from '@/stores/colSecRow2Store';
+
+const ColSecRow2Store = useColSecRow2Store();
 
 const modalQueryStore = useModalQueryStore();
 </script>
@@ -8,9 +11,15 @@ const modalQueryStore = useModalQueryStore();
   <div class="flex flex-col p-3 gap-3 justify-between" style="width: 220px">
       <div class="flex flex-col gap-3">
         <button
+          @click="() => ColSecRow2Store.changeDialog()"
           class="mt-4 transition cursor-pointer bg-blue-500 w-full rounded-3xl py-3 uppercase text-xs font-bold text-white  disabled:bg-slate-300 hover:bg-lime-600 active:bg-lime-700"
         >
+        <template v-if="ColSecRow2Store.dialog">
           Показать общий экран
+        </template>
+        <template v-else>
+          Выйти из общего экрана
+        </template>
         </button>
       </div>
       <div class="flex flex-col gap-3">
