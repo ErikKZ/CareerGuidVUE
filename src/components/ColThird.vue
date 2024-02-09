@@ -14,7 +14,7 @@ const modalQueryStore = useModalQueryStore();
           @click="() => ColSecRow2Store.changeDialog()"
           class="mt-4 transition cursor-pointer bg-blue-500 w-full rounded-3xl py-3 uppercase text-xs font-bold text-white  disabled:bg-slate-300 hover:bg-lime-600 active:bg-lime-700"
         >
-        <template v-if="ColSecRow2Store.dialog">
+        <template v-if="!ColSecRow2Store.dialog">
           Показать общий экран
         </template>
         <template v-else>

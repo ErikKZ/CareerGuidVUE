@@ -1,49 +1,66 @@
 <script setup>
-import { computed } from 'vue';
+import { computed } from 'vue'
 
-  const props = defineProps(['onClickImg', 'onDblClickImg', 'idType', 'titleTxt', 'typeTitle']);
-  
+const props = defineProps(['onClickImg', 'onDblClickImg', 'idType', 'titleTxt', 'typeTitle'])
+
 const imgUrl = computed(() => {
   switch (props.idType) {
     case 1:
-      return 'Yellow.jpg';
+      return 'Yellow.jpg'
     case 2:
-      return 'Turquoise.jpg';
+      return 'Turquoise.jpg'
     case 3:
-      return 'Red.jpg';
+      return 'Red.jpg'
     default:
-      return 'Yellow.jpg';
+      return 'Yellow.jpg'
   }
-})  
+})
 const iconUrl = computed(() => {
   switch (props.idType) {
     case 1:
-      return '/Icons/Heart.svg';
+      return '/Icons/Heart.svg'
     case 2:
-      return '/Icons/Star.svg';
+      return '/Icons/Star.svg'
     case 3:
-      return '/Icons/Diamond.svg';
+      return '/Icons/Diamond.svg'
     default:
-      return '/Icons/Star.svg';
+      return '/Icons/Star.svg'
   }
-})  
+})
 const altText = computed(() => {
   switch (props.idType) {
     case 1:
-      return 'интересы|увлечения';
+      return 'интересы|увлечения'
     case 2:
-      return 'способности|навыки';
+      return 'способности|навыки'
     case 3:
-      return 'условия|мотивиция';
+      return 'условия|мотивиция'
     default:
-      return 'неизвестно';
+      return 'неизвестно'
   }
-})  
-
-
+})
 </script>
 
 <template>
+  <div class="relative" style="opacity: 1" draggable="true" data-handler-id="T4">
+    <div style="min-width: 150px">
+      <img
+        :alt="altText"
+        loading="lazy"
+        width="150"
+        height="220"
+        decoding="async"
+        data-nimg="1"
+        class="cursor-pointer the-card"
+        :src="imgUrl"
+        style="color: transparent"
+        @click="onClickImg"
+      />
+    </div>
+  </div>
+</template>
+
+<!-- <template>
   <div class="relative min-w-150px group-[&:hover]:">
     <img
       :alt="altText"
@@ -67,4 +84,4 @@ const altText = computed(() => {
       </div>
     </div>
   </div>
-</template>
+</template> -->

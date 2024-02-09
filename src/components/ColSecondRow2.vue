@@ -4,21 +4,13 @@ import { useColStore } from '@/stores/colStore';
 
 const colStore = useColStore();
 
-
 const onClickImg = (id, idType) => {
   try {
       useColStore().setCardSelected(id, idType);
   } catch (error) {
     console.error('Error in onClickImg:', error);
   }
-  // console.log(colStore.cards.value[id].isSelected)
-  // cards.value.forEach((card, i) => {
-  //   if (i !== index) {
-  //     card.isSelected = false;
-  //   }
-  // });
 };
-
 
 </script>
 
@@ -34,3 +26,11 @@ const onClickImg = (id, idType) => {
     />
   </div>
 </template>
+
+
+<!-- // console.log(colStore.cards.value[id].isSelected)
+// cards.value.forEach((card, i) => {
+//   if (i !== index) {
+//     card.isSelected = false;
+//   }
+// }); -->

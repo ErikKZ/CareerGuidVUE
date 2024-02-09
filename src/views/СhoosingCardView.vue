@@ -5,10 +5,9 @@ import ColSecondRow1 from '@/components/ColSecondRow1.vue'
 import ColSecondRow2 from '@/components/ColSecondRow2.vue'
 import ColThird from '@/components/ColThird.vue'
 import QueryConsult from '@/components/QueryConsult.vue'
-import { computed } from 'vue';
+// import { computed } from 'vue';
 
-const ColSecRow2Store = useColSecRow2Store();
-
+const colSecRow2Store = useColSecRow2Store();
 
 
 </script>
@@ -17,9 +16,15 @@ const ColSecRow2Store = useColSecRow2Store();
   <div class="flex flex-row w-screen justify-center relative min-h-screen">
     <QueryConsult />
     <col-first />
-    <div class="grow flex flex-col" style="max-width: 1100px; min-width: 600px">
+    <div 
+      :class="{
+      'grow flex flex-col justify-between  max-w-screen-xl min-w-[600px]':
+        !colSecRow2Store.dialog,
+      'grow flex flex-col px-10 py-3 gap-3 relative max-w-screen-xl min-w-[600px] bg-[rgb(218,218,218)]': 
+        colSecRow2Store.dialog
+    }">
       <col-second-row-1 />
-      <template v-if="ColSecRow2Store.dialog">
+      <template v-if="!colSecRow2Store.dialog">
         <col-second-row-2 />
       </template>
     </div>

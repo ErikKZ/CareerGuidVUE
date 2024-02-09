@@ -1,12 +1,17 @@
 <script setup>
-import Card from './Card.vue'
 import { useColStore } from '@/stores/colStore';
+import { useColSecRow2Store } from '@/stores/colSecRow2Store';
+import Card from './Card.vue'
 
 const colStore = useColStore()
+const colSecRow2Store = useColSecRow2Store()
+
 const onClickImg = (type) => {  // colStore.selectedArray = colStore.cards.filter(c => c.idType === type && !c.isSelected)
   colStore.selectedArray = colStore.getCardsForRow2(type);
   colStore.filteredTypeArray = colStore.getFilteredCards(type); 
+  colSecRow2Store.changeToFalseDialog();
 
+  // ColSecRow2Store.dialog = true;
 }
 </script>   
 

@@ -25,6 +25,7 @@ export const useColStore = defineStore('colStore', () => {
     const cardIndex = selectedArray.value.findIndex((card) => card.id === id)
     if (cardIndex !== -1) {
       allselectedArray.value.push(selectedArray.value[cardIndex]);  
+      allselectedArray.value.sort((a, b) => a.id - b.id);
       filteredTypeArray.value = getFilteredCards(idType);
       selectedArray.value.splice(cardIndex, 1);  
     } else {
@@ -37,13 +38,19 @@ export const useColStore = defineStore('colStore', () => {
         .filter((item) => item.idType === idType);
   }
   
-
   
   const getCardsForRow2 = (idType) => {
     return cards.value.filter(card =>
       !allselectedArray.value.some(selectedCard => 
       selectedCard.id === card.id) && card.idType === idType)
   }
+
+  const resetAllSelectedArrayFilters = () => {
+    allselectedArray.value = allselectedArray.value.filter(card => {
+      return card.idType > 0
+    })
+  }
+
 
   return {
     selectedArray,
@@ -53,6 +60,7 @@ export const useColStore = defineStore('colStore', () => {
     removeCardSelected,
     getCardsForRow2,
     filteredTypeArray,
+    resetAllSelectedArrayFilters,
     cards
   }
 })
