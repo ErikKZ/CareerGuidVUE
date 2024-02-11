@@ -45,22 +45,56 @@ const restrictMovement = (x, y, item, container) => {
   }
 }
 
-const onDragUpdate = (coord, event) => {
+const calculateLeftPosition = (item) => {
+  console.log('item', item)
+  const index = this.cardsRow1ToDisplay.indexOf(item)
+  const cardWidth = 50 // замените это на фактическую ширину карточки
+  const gap = 10 // замените это на фактический интервал между карточками
+  return `${(cardWidth + gap) * index}px`
+}
+
+const calculateTopPosition = () => {
+  return `0px`
+}
+
+const calcContainerClass = computed(() => {
+  return {
+    'grow flex flex-wrap p-3 gap-3 justify-center items-center overflow-y-scroll relative':
+      !colSecRow2Store.dialog,
+    'flex gap-3 flex-wrap content-start min-h-0': colSecRow2Store.dialog
+  }
+})
+
+const allIdTypes = ref([1, 2, 3]) // Here we directly set the possible types
+
+const groupedCards = computed(() => {
+  let groups = allIdTypes.value.reduce((acc, id) => ({ ...acc, [id]: [] }), {})
+  console.log('all', colStore.allselectedArray)
+  for (const item of colStore.allselectedArray) {
+    groups[item.idType].push(item)
+  }
+  console.log(groups)
+  return groups
+})
+
+const onDragUpdate = (coord, item, index) => {
   // const firstRowRect = dragAndDropContainer.value.getBoundingClientRect()
   const imageElement = dragAndDropContainer.value.querySelector('img')
   const imageRect = imageElement.getBoundingClientRect()
 
-  const parentElement = dragAndDropContainer.value;
+  const containerRect = dragAndDropContainer.value.getBoundingClientRect()
 
-    // Получить геометрические характеристики родительского элемента
-  const firstRowRect = parentElement.getBoundingClientRect();
+  console.log('index', index, containerRect.width, containerRect.height)
 
-  console.log(firstRowRect)
+  // Получить геометрические характеристики родительского элемента
+  const firstRowRect = dragAndDropContainer.value.getBoundingClientRect()
+
+  // console.log(dragAndDropContainer)
   // console.log(coord.x, coord.y, firstRowRect.left, firstRowRect, imageRect.height)
   // if (coord.x < firstRowRect.left) {
   //   coord.x = firstRowRect.left
   //   event.preventDefault()
-  // } 
+  // }
   // else if (coord.x > firstRowRect.right - imageRect.width) {
   //   coord.x = firstRowRect.right - imageRect.width
   //   event.preventDefault()
@@ -83,54 +117,55 @@ onMounted(() => {
 <template>
   <div
     v-if="colStore.filteredTypeArray.length === 0 && !colSecRow2Store.dialog"
-      class="grow text-lg flex flex-col items-center justify-center"
-      style="background-color: #dadada"
+    class="grow text-lg flex flex-col items-center justify-center"
+    style="background-color: #dadada"
   >
     Выберите карты из колоды
     <div>▼</div>
   </div>
-  <div
-    v-else
-    ref="dragAndDropContainer"
-    :class="{
-      'grow flex flex-wrap p-3 gap-3 justify-center items-center overflow-y-scroll relative':
-        !colSecRow2Store.dialog,
-      'flex gap-3 flex-wrap content-start min-h-0': 
-        colSecRow2Store.dialog
-    }"
-    style="background-color: rgb(218, 218, 218); max-height: calc(-240px + 100vh)"
-  >
-  <template v-if="colSecRow2Store.dialog">
-    <UseDraggable
-      :container-element="dragAndDropContainer"
-      v-for="item in cardsRow1ToDisplay"
-      :key="item.id"
-      :exact="false"
-      :on-move="(x, event) => onDragUpdate(x, event)"
-      style="position: absolute;"
+  <template v-else>
+    <template v-if="colSecRow2Store.dialog">
+      <!-- <UseDraggable
+    v-for="(item, index) in cardsRow1ToDisplay"
+    :key="item.id"
+    :exact="false"
+    :on-move="(x) => onDragUpdate(x, item, index)"
+    :style="{ position: 'absolute' }"
+  > -->
+      <div
+        v-for="idType in Object.keys(groupedCards)"
+        :key="idType"
+        class="flex gap-3 flex-wrap content-start"
+        ref="dragAndDropContainer"
+        style="min-height: auto"
+      >
+        <div v-for="(item, index) in groupedCards[idType]" :key="index">
+          <card-down
+            :id-type="item.idType"
+            :title-txt="item.titleTxt"
+            :type-title="item.typeTitle"
+          />
+        </div>
+      </div>
+      <!-- </UseDraggable> -->
+    </template>
+    <div
+      v-else
+      class="grow flex flex-wrap p-3 gap-3 justify-center items-center overflow-y-scroll relative"
+      style="max-height: calc(-240px + 100vh)"
     >
       <card-down
-        :id-type="item.idType"
-        :title-txt="item.titleTxt"
-        :type-title="item.typeTitle"
-      />
-    </UseDraggable>
-  </template>
-  <template v-else>
-    <card-down
-      v-for="item in cardsRow1ToDisplay"
+        v-for="item in cardsRow1ToDisplay"
         :key="item.id"
         :id-type="item.idType"
         :title-txt="item.titleTxt"
         :type-title="item.typeTitle"
-        :exact="false"
         @dblclick="() => onDblClickImg(item.id, item.idType)"
         :on-move="(x, event) => onDragUpdate(x, event)"
-    />
+      />
+    </div>
   </template>
-  </div>
 </template>
-
 
 <!-- :style="draggableStyle" -->
 <!-- <template>
@@ -173,3 +208,45 @@ onMounted(() => {
   //     position: colSecRow2Store.dialog ? 'relative' : 'relative'
   //   }
   // }) -->
+
+<!-- второй вариант перетаскивания -->
+<!-- <div
+    v-else
+    ref="dragAndDropContainer"
+    :class="{
+      'grow flex flex-wrap p-3 gap-3 justify-center items-center overflow-y-scroll relative':
+        !colSecRow2Store.dialog,
+      'flex gap-3 flex-wrap content-start min-h-0': 
+        colSecRow2Store.dialog
+    }"
+    style="background-color: rgb(218, 218, 218); max-height: calc(-240px + 100vh)"
+  >
+  <template v-if="colSecRow2Store.dialog">
+    <UseDraggable
+      :container-element="dragAndDropContainer"
+      v-for="(item, index) in cardsRow1ToDisplay"
+      :key="item.id"
+      :exact="false"
+      :on-move="(x) => onDragUpdate(x, item, index)"
+      :style="{ position: 'absolute' }"
+    >
+      <card-down
+        :id-type="item.idType"
+        :title-txt="item.titleTxt"
+        :type-title="item.typeTitle"
+      />
+    </UseDraggable>
+  </template>
+  <template v-else>
+    <card-down
+      v-for="item in cardsRow1ToDisplay"
+        :key="item.id"
+        :id-type="item.idType"
+        :title-txt="item.titleTxt"
+        :type-title="item.typeTitle"
+        :exact="false"
+        @dblclick="() => onDblClickImg(item.id, item.idType)"
+        :on-move="(x, event) => onDragUpdate(x, event)"
+    />
+  </template>
+  </div> -->

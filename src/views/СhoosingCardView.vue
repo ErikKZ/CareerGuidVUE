@@ -18,11 +18,13 @@ const colSecRow2Store = useColSecRow2Store();
     <col-first />
     <div 
       :class="{
-      'grow flex flex-col justify-between  max-w-screen-xl min-w-[600px]':
-        !colSecRow2Store.dialog,
-      'grow flex flex-col px-10 py-3 gap-3 relative max-w-screen-xl min-w-[600px] bg-[rgb(218,218,218)]': 
-        colSecRow2Store.dialog
-    }">
+        'grow flex flex-col justify-between  max-w-screen-xl min-w-[600px]':
+          !colSecRow2Store.dialog,
+        'grow flex flex-col px-10 py-3 gap-3 relative': 
+          colSecRow2Store.dialog
+      }"
+      style="max-width: 1100px; min-width: 600px; background-color: rgb(218, 218, 218);"
+      >
       <col-second-row-1 />
       <template v-if="!colSecRow2Store.dialog">
         <col-second-row-2 />
