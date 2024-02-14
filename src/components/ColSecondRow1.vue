@@ -79,8 +79,8 @@ const groupedCards = computed(() => {
 
 const onDragUpdate = (coord, item, index) => {
   // const firstRowRect = dragAndDropContainer.value.getBoundingClientRect()
-  const imageElement = dragAndDropContainer.value.querySelector('img')
-  const imageRect = imageElement.getBoundingClientRect()
+  // const imageElement = dragAndDropContainer.value.querySelector('img')
+  // const imageRect = imageElement.getBoundingClientRect()
 
   const containerRect = dragAndDropContainer.value.getBoundingClientRect()
 
@@ -126,27 +126,28 @@ onMounted(() => {
   <template v-else>
     <template v-if="colSecRow2Store.dialog">
       <!-- <UseDraggable
-    v-for="(item, index) in cardsRow1ToDisplay"
-    :key="item.id"
-    :exact="false"
-    :on-move="(x) => onDragUpdate(x, item, index)"
-    :style="{ position: 'absolute' }"
-  > -->
-      <div
-        v-for="idType in Object.keys(groupedCards)"
-        :key="idType"
-        class="flex gap-3 flex-wrap content-start"
+        v-for="(item, index) in cardsRow1ToDisplay"
+        :key="item.id"
         ref="dragAndDropContainer"
-        style="min-height: auto"
-      >
-        <div v-for="(item, index) in groupedCards[idType]" :key="index">
-          <card-down
-            :id-type="item.idType"
-            :title-txt="item.titleTxt"
-            :type-title="item.typeTitle"
-          />
+        :exact="false"
+        :on-move="(x) => onDragUpdate(x, item, index)"
+        :style="{ position: 'absolute' }"
+      > -->
+        <div
+          v-for="idType in Object.keys(groupedCards)"
+          :key="idType"
+          class="flex gap-3 flex-wrap content-start"
+          ref="dragAndDropContainer"
+          style="min-height: auto"
+        >
+          <div v-for="(item, index) in groupedCards[idType]" :key="index">
+            <card-down
+              :id-type="item.idType"
+              :title-txt="item.titleTxt"
+              :type-title="item.typeTitle"
+            />
+          </div>
         </div>
-      </div>
       <!-- </UseDraggable> -->
     </template>
     <div

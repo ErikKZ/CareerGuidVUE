@@ -20,7 +20,7 @@ const colSecRow2Store = useColSecRow2Store();
       :class="{
         'grow flex flex-col justify-between  max-w-screen-xl min-w-[600px]':
           !colSecRow2Store.dialog,
-        'grow flex flex-col px-10 py-3 gap-3 relative': 
+        'grow flex flex-col px-2 py-2 gap-3 relative': 
           colSecRow2Store.dialog
       }"
       style="max-width: 1100px; min-width: 600px; background-color: rgb(218, 218, 218);"

@@ -56,6 +56,18 @@ const altText = computed(() => {
         style="color: transparent"
         @click="onClickImg"
       />
+      <div class="w-full pointer-events-none absolute top-1 left-0 flex flex-col">
+        <div class="flex mx-2 items-center mb-8">
+          <img class="w-4 h-4 mr-2" :src="iconUrl" :alt="altText" />
+          <span class="text-black font-bold uppercase" style="font-size: 0.5rem">{{
+            altText
+          }}</span>
+        </div>
+        <div class="text-center">
+          <p class="text-black -mb-1 uppercase font-bold text-xs">{{ titleTxt }}</p>
+          <p class="whitespace-nowrap text-black font-bold text-xs">{{ typeTitle }}</p>
+        </div>
+      </div>
     </div>
   </div>
 </template>
