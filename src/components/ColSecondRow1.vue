@@ -145,6 +145,7 @@ onMounted(() => {
               :id-type="item.idType"
               :title-txt="item.titleTxt"
               :type-title="item.typeTitle"
+              @dblclick="() => onDblClickImg(item.id, item.idType)"
             />
           </div>
         </div>
@@ -162,7 +163,6 @@ onMounted(() => {
         :title-txt="item.titleTxt"
         :type-title="item.typeTitle"
         @dblclick="() => onDblClickImg(item.id, item.idType)"
-        :on-move="(x, event) => onDragUpdate(x, event)"
       />
     </div>
   </template>
