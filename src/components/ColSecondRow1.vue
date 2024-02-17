@@ -57,39 +57,49 @@ const calculateTopPosition = () => {
   return `0px`
 }
 
-const calcContainerClass = computed(() => {
-  return {
-    'grow flex flex-wrap p-3 gap-3 justify-center items-center overflow-y-scroll relative':
-      !colSecRow2Store.dialog,
-    'flex gap-3 flex-wrap content-start min-h-0': colSecRow2Store.dialog
-  }
-})
-
 const allIdTypes = ref([1, 2, 3]) // Here we directly set the possible types
 
 const groupedCards = computed(() => {
   let groups = allIdTypes.value.reduce((acc, id) => ({ ...acc, [id]: [] }), {})
-  console.log('all', colStore.allselectedArray)
+  // console.log('all', colStore.allselectedArray)
   for (const item of colStore.allselectedArray) {
     groups[item.idType].push(item)
   }
-  console.log(groups)
+  // console.log(groups)
   return groups
 })
 
-const onDragUpdate = (coord, item, index) => {
+const x = ref(0)
+const y = ref(0)
+
+const onDragUpdate = ({ x: newX, y: newY }) => {
+  const parentRef = dragAndDropContainer.value.getBoundingClientRect()
+  // const cardElement = parentRef.querySelector('img')
+  console.log(x.value, y.value, newX, newY)
+  console.log(parentRef)
+
+  if (newX < parentRef.left) {
+    x.value = parentRef.left
+  }
+  else if (newX > parentRef.right ) {
+    x.value = parentRef.right
+  }
+  else x.value = newX
+
+  y.value = newY
+}
+
+const onDragUpdate1 = (coord, item, index) => {
   // const firstRowRect = dragAndDropContainer.value.getBoundingClientRect()
   // const imageElement = dragAndDropContainer.value.querySelector('img')
   // const imageRect = imageElement.getBoundingClientRect()
 
-  const containerRect = dragAndDropContainer.value.getBoundingClientRect()
+  
+  // console.log('index', index, coord.x, coord.y)
 
-  console.log('index', index, containerRect.width, containerRect.height)
+  
 
-  // Получить геометрические характеристики родительского элемента
-  const firstRowRect = dragAndDropContainer.value.getBoundingClientRect()
-
-  // console.log(dragAndDropContainer)
+  console.log(dragAndDropContainer)
   // console.log(coord.x, coord.y, firstRowRect.left, firstRowRect, imageRect.height)
   // if (coord.x < firstRowRect.left) {
   //   coord.x = firstRowRect.left
@@ -110,7 +120,7 @@ const onDragUpdate = (coord, item, index) => {
 }
 
 onMounted(() => {
-  dragAndDropContainer.value = document.querySelector('.drag-n-drop-container')
+  // dragAndDropContainer.value = document.querySelector('.drag-n-drop-container')
 })
 </script>
 
@@ -133,22 +143,32 @@ onMounted(() => {
         :on-move="(x) => onDragUpdate(x, item, index)"
         :style="{ position: 'absolute' }"
       > -->
+      <div ref="dragAndDropContainer" class="">
         <div
           v-for="idType in Object.keys(groupedCards)"
           :key="idType"
           class="flex gap-3 flex-wrap content-start"
-          ref="dragAndDropContainer"
           style="min-height: auto"
         >
           <div v-for="(item, index) in groupedCards[idType]" :key="index">
-            <card-down
-              :id-type="item.idType"
-              :title-txt="item.titleTxt"
-              :type-title="item.typeTitle"
-              @dblclick="() => onDblClickImg(item.id, item.idType)"
-            />
+            <UseDraggable 
+              v-slot="{ x, y }" 
+              
+              
+            >
+              <card-down
+                :id-type="item.idType"
+                :title-txt="item.titleTxt"
+                :type-title="item.typeTitle"
+                @dblclick="() => onDblClickImg(item.id, item.idType)"
+                class="cursor-move"
+                :style="{ transform: `translate(${x}px, ${y}px)` }"
+              />
+            </UseDraggable>
           </div>
         </div>
+      </div>
+
       <!-- </UseDraggable> -->
     </template>
     <div

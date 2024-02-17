@@ -51,12 +51,12 @@ const altText = computed(() => {
         height="220"
         decoding="async"
         data-nimg="1"
-        class="cursor-pointer the-card"
+        class="the-card"
         :src="imgUrl"
         style="color: transparent"
         @click="onClickImg"
       />
-      <div class="w-full pointer-events-none absolute top-1 left-0 flex flex-col">
+      <div class="w-full absolute top-1 left-0 flex flex-col">
         <div class="flex mx-2 items-center mb-8">
           <img class="w-4 h-4 mr-2" :src="iconUrl" :alt="altText" />
           <span class="text-black font-bold uppercase" style="font-size: 0.5rem">{{
