@@ -2,6 +2,7 @@
 import { ref, onMounted, computed } from 'vue'
 import CardDown from './CardDown.vue'
 
+import { useDraggable } from '@vueuse/core'
 import { UseDraggable } from '@vueuse/components'
 
 import { useColStore } from '@/stores/colStore'
@@ -10,6 +11,9 @@ import { useColSecRow2Store } from '@/stores/colSecRow2Store'
 const colStore = useColStore()
 const colSecRow2Store = useColSecRow2Store()
 const dragAndDropContainer = ref()
+
+const handle = (ref < HTMLElement) | (null > null)
+
 
 const onDblClickImg = (id, idType) => {
   colStore.removeCardSelected(id, idType)
@@ -72,19 +76,26 @@ const groupedCards = computed(() => {
 const x = ref(0)
 const y = ref(0)
 
-const onDragUpdate = ({ x: newX, y: newY }) => {
+
+const onDragUpdate = (event, { x: newX, y: newY }) => {
   const parentRef = dragAndDropContainer.value.getBoundingClientRect()
   // const cardElement = parentRef.querySelector('img')
-  console.log(x.value, y.value, newX, newY)
-  console.log(parentRef)
+  // console.log(x.value, y.value, newX, newY)
+  // console.log(parentRef)
 
-  if (newX < parentRef.left) {
-    x.value = parentRef.left
-  }
-  else if (newX > parentRef.right ) {
-    x.value = parentRef.right
-  }
-  else x.value = newX
+
+  // x.value = Math.max(parentRef.left, Math.min(newX, parentRef.right));
+  x.value = 100
+  // console.log('After: ', x.value)
+
+  // if (newX < parentRef.left) {
+  //   x.value = parentRef.left
+  //   console.log("<L",x.value)
+  //   event.preventDefault()
+  // } else if (newX > parentRef.right) {
+  //   x.value = parentRef.right
+  //   console.log(">R",x.value)
+  // } else x.value = newX
 
   y.value = newY
 }
@@ -94,10 +105,7 @@ const onDragUpdate1 = (coord, item, index) => {
   // const imageElement = dragAndDropContainer.value.querySelector('img')
   // const imageRect = imageElement.getBoundingClientRect()
 
-  
   // console.log('index', index, coord.x, coord.y)
-
-  
 
   console.log(dragAndDropContainer)
   // console.log(coord.x, coord.y, firstRowRect.left, firstRowRect, imageRect.height)
@@ -121,6 +129,7 @@ const onDragUpdate1 = (coord, item, index) => {
 
 onMounted(() => {
   // dragAndDropContainer.value = document.querySelector('.drag-n-drop-container')
+  // containerRef.value = container.value; // "container" это имя вашего ref в шаблоне
 })
 </script>
 
@@ -143,18 +152,24 @@ onMounted(() => {
         :on-move="(x) => onDragUpdate(x, item, index)"
         :style="{ position: 'absolute' }"
       > -->
-      <div ref="dragAndDropContainer" class="">
+      <div >
         <div
           v-for="idType in Object.keys(groupedCards)"
           :key="idType"
           class="flex gap-3 flex-wrap content-start"
           style="min-height: auto"
         >
-          <div v-for="(item, index) in groupedCards[idType]" :key="index">
-            <UseDraggable 
-              v-slot="{ x, y }" 
-              
-              
+          <div
+            v-for="(item, index) in groupedCards[idType]"
+            :key="index"
+          >
+            <UseDraggable
+              v-slot="{ x, y }"
+              :initial-value="{ x: 100, y: 0 }"
+              :prevent-default="true"
+              :container-element="container"
+              :on-move="onDragUpdate"
+              class="fixed z-124"
             >
               <card-down
                 :id-type="item.idType"
@@ -162,8 +177,8 @@ onMounted(() => {
                 :type-title="item.typeTitle"
                 @dblclick="() => onDblClickImg(item.id, item.idType)"
                 class="cursor-move"
-                :style="{ transform: `translate(${x}px, ${y}px)` }"
               />
+              I am at {{ Math.round(x) }}, {{ Math.round(y) }}
             </UseDraggable>
           </div>
         </div>
