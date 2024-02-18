@@ -12,6 +12,25 @@ const colStore = useColStore()
 const colSecRow2Store = useColSecRow2Store()
 const dragAndDropContainer = ref()
 
+const widthCard = 150
+const heightCard = 220
+
+const x = ref(0)
+const y = ref(0)
+
+
+const onDragUpdate = (position, event) => {
+  const parentRef = dragAndDropContainer.value.getBoundingClientRect()
+  console.log('Parent', parentRef)
+
+  if (position.x < parentRef.left || position.x > parentRef.right - widthCard) {
+    position.x = Math.max(parentRef.left, Math.min(position.x, parentRef.right - widthCard));
+  }
+
+  if (position.y < parentRef.top || position.y > parentRef.bottom - heightCard) {
+    position.y = Math.max(parentRef.top, Math.min(position.y, parentRef.bottom - heightCard));
+  }
+}
 
 const onDblClickImg = (id, idType) => {
   colStore.removeCardSelected(id, idType)
@@ -35,63 +54,10 @@ const groupedCards = computed(() => {
   return groups
 })
 
-const x = ref(0)
-const y = ref(0)
-
-
-const onDragUpdate = (event, { x: newX, y: newY }) => {
-  const parentRef = dragAndDropContainer.value.getBoundingClientRect()
-  // const cardElement = parentRef.querySelector('img')
-  // console.log(x.value, y.value, newX, newY)
-  // console.log(parentRef)
-
-
-  // x.value = Math.max(parentRef.left, Math.min(newX, parentRef.right));
-  x.value = 100
-  // console.log('After: ', x.value)
-
-  // if (newX < parentRef.left) {
-  //   x.value = parentRef.left
-  //   console.log("<L",x.value)
-  //   event.preventDefault()
-  // } else if (newX > parentRef.right) {
-  //   x.value = parentRef.right
-  //   console.log(">R",x.value)
-  // } else x.value = newX
-
-  y.value = newY
-}
-
-const onDragUpdate1 = (coord, item, index) => {
-  // const firstRowRect = dragAndDropContainer.value.getBoundingClientRect()
-  // const imageElement = dragAndDropContainer.value.querySelector('img')
-  // const imageRect = imageElement.getBoundingClientRect()
-
-  // console.log('index', index, coord.x, coord.y)
-
-  console.log(dragAndDropContainer)
-  // console.log(coord.x, coord.y, firstRowRect.left, firstRowRect, imageRect.height)
-  // if (coord.x < firstRowRect.left) {
-  //   coord.x = firstRowRect.left
-  //   event.preventDefault()
-  // }
-  // else if (coord.x > firstRowRect.right - imageRect.width) {
-  //   coord.x = firstRowRect.right - imageRect.width
-  //   event.preventDefault()
-  // }
-
-  // if (coord.y < 0) {
-  //   coord.y = 0
-  //   event.preventDefault()
-  // } else if (coord.y > firstRowRect.bottom) {
-  //   coord.y = firstRowRect.bottom
-  //   event.preventDefault()
-  // }
-}
 
 onMounted(() => {
   // dragAndDropContainer.value = document.querySelector('.drag-n-drop-container')
-  // containerRef.value = container.value; // "container" это имя вашего ref в шаблоне
+ 
 })
 </script>
 
@@ -106,7 +72,7 @@ onMounted(() => {
   </div>
   <template v-else>
     <template v-if="colSecRow2Store.dialog">
-      <div ref="dragAndDropContainer" >
+      <div class="w-full h-full" ref="dragAndDropContainer">
         <div
           v-for="idType in Object.keys(groupedCards)"
           :key="idType"
@@ -119,7 +85,7 @@ onMounted(() => {
           >
             <UseDraggable
               v-slot="{ x, y }"
-              :initial-value="{ x: 400 + (200 * index), y: 0 }"
+              :initial-value="{ x: 400 + 200 * index, y: 8 }"
               :prevent-default="true"
               :on-move="onDragUpdate"
               class="fixed z-124"
@@ -136,8 +102,6 @@ onMounted(() => {
           </div>
         </div>
       </div>
-
-      <!-- </UseDraggable> -->
     </template>
     <div
       v-else
