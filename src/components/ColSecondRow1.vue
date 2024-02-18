@@ -165,9 +165,8 @@ onMounted(() => {
           >
             <UseDraggable
               v-slot="{ x, y }"
-              :initial-value="{ x: 100, y: 0 }"
+              :initial-value="{ x: 100, y: 220 }"
               :prevent-default="true"
-              :container-element="container"
               :on-move="onDragUpdate"
               class="fixed z-124"
             >
