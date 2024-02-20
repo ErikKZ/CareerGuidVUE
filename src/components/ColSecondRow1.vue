@@ -1,8 +1,8 @@
 <script setup>
-import { ref, onMounted, computed } from 'vue'
+import { ref, onMounted, watchEffect, computed } from 'vue'
 import CardDown from './CardDown.vue'
 
-import { useDraggable } from '@vueuse/core'
+// import { useDraggable as useDraggableCore } from '@vueuse/core'
 import { UseDraggable } from '@vueuse/components'
 
 import { useColStore } from '@/stores/colStore'
@@ -14,21 +14,37 @@ const dragAndDropContainer = ref()
 
 const widthCard = 150
 const heightCard = 220
+const draggingCardIndex = ref(null);
 
-const x = ref(0)
-const y = ref(0)
+const cardsPerRow = computed(() => {
+  return Math.floor(dragAndDropContainer.value / widthCard)
+})
 
+const dragStart = (uniqueId) => {
+  draggingCardIndex.value = uniqueId;
+};
 
-const onDragUpdate = (position, event) => {
+const dragEnd = (currentCardId) => {
+  let maxZIndex = Math.max(...colStore.allselectedArray.map(card => card.zIndex));
+  
+  let currentCard = colStore.allselectedArray.find(card => card.id === currentCardId);
+  if (currentCard) {
+      currentCard.zIndex = maxZIndex + 1;
+  }
+  else {
+    console.error(`DragEnd:Card with ID ${currentCardId} not found in allselectedArray.`);
+  }
+};
+
+const onDragUpdate = (position) => {
   const parentRef = dragAndDropContainer.value.getBoundingClientRect()
-  console.log('Parent', parentRef)
 
   if (position.x < parentRef.left || position.x > parentRef.right - widthCard) {
-    position.x = Math.max(parentRef.left, Math.min(position.x, parentRef.right - widthCard));
+    position.x = Math.max(parentRef.left, Math.min(position.x, parentRef.right - widthCard))
   }
 
   if (position.y < parentRef.top || position.y > parentRef.bottom - heightCard) {
-    position.y = Math.max(parentRef.top, Math.min(position.y, parentRef.bottom - heightCard));
+    position.y = Math.max(parentRef.top, Math.min(position.y, parentRef.bottom - heightCard))
   }
 }
 
@@ -57,7 +73,6 @@ const groupedCards = computed(() => {
 
 onMounted(() => {
   // dragAndDropContainer.value = document.querySelector('.drag-n-drop-container')
- 
 })
 </script>
 
@@ -72,34 +87,38 @@ onMounted(() => {
   </div>
   <template v-else>
     <template v-if="colSecRow2Store.dialog">
-      <div class="w-full h-full" ref="dragAndDropContainer">
+      <div ref="dragAndDropContainer" class="w-full h-full flex flex-wrap">
         <div
           v-for="idType in Object.keys(groupedCards)"
           :key="idType"
           class="flex gap-3 flex-wrap content-start"
           style="min-height: auto"
         >
-          <div
+          <UseDraggable
             v-for="(item, index) in groupedCards[idType]"
-            :key="index"
-          >
-            <UseDraggable
+              :key="index"
               v-slot="{ x, y }"
-              :initial-value="{ x: 400 + 200 * index, y: 8 }"
+              :initial-value="{
+                x: 400 + 160 * (index % 6),
+                y: 8 + heightCard * Math.floor(index / 6) ,
+              }"
               :prevent-default="true"
+              :on-start="() => dragStart(`${idType}-${index}`)"
+              :on-end="() => dragEnd(item.id)"
+              :class="{ 'fixed': true }"
+              :style="{ zIndex: draggingCardIndex ===  `${idType}-${index}` ? 9999 : item.zIndex }"
               :on-move="onDragUpdate"
-              class="fixed z-124"
-            >
-              <card-down
-                :id-type="item.idType"
-                :title-txt="item.titleTxt"
-                :type-title="item.typeTitle"
-                @dblclick="() => onDblClickImg(item.id, item.idType)"
-                class="cursor-move"
-              />
-              I am at {{ Math.round(x) }}, {{ Math.round(y) }}
-            </UseDraggable>
-          </div>
+          >
+            <card-down
+              :id-type="item.idType"
+              :title-txt="item.titleTxt"
+              :type-title="item.typeTitle"
+              @dblclick="() => onDblClickImg(item.id, item.idType)"
+              class="cursor-move"
+            />
+            <!-- I am at {{ draggingCardIndex }}, {{ Math.floor(index / 6) }}, {{ Math.round(x) }}, {{ Math.round(y) }}, z-index: {{ draggingCardIndex === `${idType}-${index}` ? 100 : 10 }} -->
+            I am at {{ index }}, {{ idType }},  {{ x }}, {{ y }}
+          </UseDraggable>
         </div>
       </div>
     </template>
@@ -119,3 +138,11 @@ onMounted(() => {
     </div>
   </template>
 </template>
+
+<style scoped>
+.draggable-card {
+  max-width: calc(100% - 160px); /* Максимальная ширина = 100% - 160px */
+  max-height: calc(100% - 8px); /* Максимальная высота = 100% - 8px */
+  overflow: auto; /* Добавить полосы прокрутки при необходимости */
+}
+</style>

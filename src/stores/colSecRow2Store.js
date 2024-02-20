@@ -1,22 +1,32 @@
 import { defineStore } from 'pinia'
-import { useColStore } from '@/stores/colStore';
+import { useColStore } from '@/stores/colStore'
 import { ref } from 'vue'
 
-const colStore = useColStore()
-
+// const colStore = useColStore()
+// console.log(colStore.allselectedArray)
 
 export const useColSecRow2Store = defineStore('colSecRow2Store', () => {
   const dialog = ref(false)
-  // console.log("dail ",dialog.value)  
-  
+  // console.log("dail ",dialog.value)
+
   const changeToFalseDialog = () => {
-    dialog.value = false;
+    dialog.value = false
   }
   const changeDialog = () => {
-    dialog.value = !dialog.value;
+    dialog.value = !dialog.value
+
+    const colStore = useColStore();
+    // console.log(colStore.allselectedArray);
+    
 
     if (dialog.value) {
-        colStore.resetAllSelectedArrayFilters();
+      colStore.resetAllSelectedArrayFilters()
+
+      colStore.allselectedArray.forEach((card, index) => {
+        console.log(card, index)
+        card.zIndex = index + 1
+      })
+      // console.log(colStore.allselectedArray);
     }
   }
 
@@ -26,10 +36,8 @@ export const useColSecRow2Store = defineStore('colSecRow2Store', () => {
   //     colStore.allselectedArray.value = []
   //   }
   // })
-  return { dialog, changeDialog , changeToFalseDialog}
+  return { dialog, changeDialog, changeToFalseDialog }
 })
-
-
 
 // watch(dialog, (newVal, oldVal) => {
 //   console.log(`dialog changed from ${oldVal} to ${newVal}`);
