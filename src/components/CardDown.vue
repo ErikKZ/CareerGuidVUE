@@ -42,7 +42,7 @@ const altText = computed(() => {
 </script>
 
 <template>
-  <div class="relative" style="opacity: 1" draggable="true" data-handler-id="T4">
+  <div class="relative"  draggable="true" data-handler-id="T4">
     <div style="min-width: 150px">
       <img
         :alt="altText"

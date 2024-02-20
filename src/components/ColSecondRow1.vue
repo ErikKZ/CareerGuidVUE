@@ -17,13 +17,16 @@ const dragAndDropContainer = ref()
 const widthCard = 150
 const heightCard = 220
 const draggingCardIndex = ref(null)
+const cardOpacity = ref(1)
 
 
 const dragStart = (uniqueId) => {
   draggingCardIndex.value = uniqueId
+  cardOpacity.value = 0.5;
 }
 
 const dragEnd = (currentCardId) => {
+  cardOpacity.value = 1;
   let maxZIndex = Math.max(...colStore.allselectedArray.map((card) => card.zIndex))
 
   let currentCard = colStore.allselectedArray.find((card) => card.id === currentCardId)
@@ -86,7 +89,10 @@ onMounted(() => {
           :on-start="() => dragStart(index)"
           :on-end="() => dragEnd(item.id)"
           :class="{ fixed: true,  'overflow-y-auto': true }"
-          :style="{ zIndex: draggingCardIndex === index ? 9999 : item.zIndex }"
+          :style="{ 
+              zIndex: draggingCardIndex === index ? 9999 : item.zIndex ,
+              opacity: cardOpacity  // Добавлено проразчонтси
+          }"
           :on-move="onDragUpdate"
         >
           <card-down
