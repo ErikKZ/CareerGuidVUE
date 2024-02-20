@@ -77,7 +77,9 @@ onMounted(() => {
   </div>
   <template v-else>
     <template v-if="colSecRow2Store.dialog">
-      <div ref="dragAndDropContainer" class="w-full h-full flex flex-wrap overflow-y-auto">
+      <div ref="dragAndDropContainer" 
+        class="w-full h-screen flex flex-wrap overflow-y-auto "
+      >
         <UseDraggable
           v-for="(item, index) in colStore.allselectedArray"
           :key="index"
@@ -108,8 +110,8 @@ onMounted(() => {
     </template>
     <div
       v-else
-      class="grow flex flex-wrap p-3 gap-3 justify-center items-center overflow-y-scroll relative"
-      style="max-height: calc(-240px + 100vh)"
+      class="grow flex flex-wrap p-3 gap-3 justify-center items-center overflow-y-auto relative"
+      style="max-height: calc(-240px - 16px + 100vh)"
     >
       <card-down
         v-for="item in cardsRow1ToDisplay"

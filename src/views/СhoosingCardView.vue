@@ -9,11 +9,11 @@ import QueryConsult from '@/components/QueryConsult.vue'
 
 const colSecRow2Store = useColSecRow2Store();
 
-
 </script>
 
 <template>
-  <div class="flex flex-row w-screen justify-center relative min-h-screen">
+  <div 
+    class="flex flex-row w-screen justify-center relative min-h-screen">
     <QueryConsult />
     <col-first />
     <div 
