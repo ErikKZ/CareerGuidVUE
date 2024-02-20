@@ -7,7 +7,6 @@ body {
 }
 
 .the-card {
-  overflow: hidden;
   height: 220px;
   @apply shadow-md rounded-xl h-56 max-w-48;
 }

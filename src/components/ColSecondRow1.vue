@@ -45,7 +45,7 @@ const onDragUpdate = (position) => {
   }
 
   if (position.y < parentRef.top || position.y > parentRef.bottom - heightCard) {
-    position.y = Math.max(parentRef.top, Math.min(position.y, parentRef.bottom - heightCard))
+    position.y = Math.max(parentRef.top, Math.min(position.y, parentRef.bottom))
   }
 }
 
@@ -78,6 +78,7 @@ onMounted(() => {
   <template v-else>
     <template v-if="colSecRow2Store.dialog">
       <div ref="dragAndDropContainer" 
+        style="max-height: calc(-16px + 100vh)"
         class="w-full h-screen flex flex-wrap overflow-y-auto "
       >
         <UseDraggable
@@ -90,7 +91,7 @@ onMounted(() => {
           :prevent-default="true"
           :on-start="() => dragStart(index)"
           :on-end="() => dragEnd(item.id)"
-          :class="{ fixed: true,  'overflow-y-auto': true }"
+          :class="{ fixed: true }"
           :style="{ 
               zIndex: draggingCardIndex === index ? 9999 : item.zIndex ,
               opacity: cardOpacity  // Добавлено проразчонтси
