@@ -46,10 +46,18 @@ export const useColStore = defineStore('colStore', () => {
   }
 
   const resetAllSelectedArrayFilters = () => {
-    allselectedArray.value = allselectedArray.value.filter(card => {
-      return card.idType > 0
-    })
-  }
+    allselectedArray.value = allselectedArray.value
+      .filter(card => card.idType > 0)
+      .sort((a, b) => {
+        // Сначала сравниваем по idType
+        if (a.idType !== b.idType) {
+          return a.idType - b.idType;
+        }
+        // Если idType одинаков, сравниваем по id
+        return a.id - b.id;
+      });
+  };
+  
 
 
   return {

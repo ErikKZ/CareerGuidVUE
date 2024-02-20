@@ -23,7 +23,7 @@ export const useColSecRow2Store = defineStore('colSecRow2Store', () => {
       colStore.resetAllSelectedArrayFilters()
 
       colStore.allselectedArray.forEach((card, index) => {
-        console.log(card, index)
+        // console.log(card, index)
         card.zIndex = index + 1
       })
       // console.log(colStore.allselectedArray);
