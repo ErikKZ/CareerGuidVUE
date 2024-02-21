@@ -18,7 +18,7 @@ watch(() => modalQueryStore.isModalOpen, async (newVal) => {
 <template>
   <div v-if="modalQueryStore.isModalOpen"
     class="fixed w-full h-full bg-black/70 top-0 left-0 flex justify-center items-center"
-    style="z-index: 1000"
+    style="z-index: 9900"
   >
     <div
       class="p-6 bg-gray-100 border-2 rounded-xl shadow-lg flex justify-center items-center flex-col relative"
