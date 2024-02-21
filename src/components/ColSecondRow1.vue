@@ -93,7 +93,7 @@ onMounted(() => {
           :on-end="() => dragEnd(item.id)"
           :class="{ fixed: true }"
           :style="{ 
-              zIndex: draggingCardIndex === index ? 9999 : item.zIndex ,
+              zIndex: draggingCardIndex === index ? 9000 : item.zIndex ,
               opacity: cardOpacity  // Добавлено проразчонтси
           }"
           :on-move="onDragUpdate"
