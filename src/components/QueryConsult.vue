@@ -1,17 +1,41 @@
 <script setup>
 import { useModalQueryStore } from '@/stores/modalQueryStore'
-import {ref,nextTick, watch } from 'vue';
+import {ref,nextTick, onMounted, watch } from 'vue';
+import { useToast } from 'vue-toastification'
 
 const modalQueryStore = useModalQueryStore()
+
+const toast = useToast();
 
 const textArea = ref(null)
 
 watch(() => modalQueryStore.isModalOpen, async (newVal) => {
   if (newVal) {
     await nextTick()
+    const textFromLocalStorage = localStorage.getItem('savedQueryTxt');
+    if (textFromLocalStorage) {
+      textArea.value.value = textFromLocalStorage;
+    }
     textArea.value.focus()
   }
 })
+
+const saveToLocalStorage = () => {
+  const textValue = textArea.value.value;
+  localStorage.setItem('savedQueryTxt', textValue);
+  
+  const toastOptions = {
+    position: 'top-center',
+    timeout: 1000,
+    closeOnClick: true,
+    pauseOnHover: false,
+    draggable: true,
+    draggablePercent: 0.1, // Указываем процент от размера окна уведомления
+  };
+  toast.success('Запрос сохранен!', toastOptions);
+  
+  modalQueryStore.closeModal();
+};
 
 </script>
 
@@ -46,7 +70,12 @@ watch(() => modalQueryStore.isModalOpen, async (newVal) => {
       <form class="block" style="width: 50vw">
         <textarea ref="textArea" rows="20" class="w-full shadow p-5" name="text"></textarea>
         <div class="text-center mt-5">
-          <button class="primary-button" type="submit">Сохранить</button>
+          <button 
+            class="primary-button" 
+            type="button" 
+            @click="saveToLocalStorage"
+          >Сохранить
+          </button>
         </div>
       </form>
     </div>
