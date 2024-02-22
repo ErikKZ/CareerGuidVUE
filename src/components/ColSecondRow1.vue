@@ -59,6 +59,16 @@ const cardsRow1ToDisplay = computed(() => {
   return cards
 })
 
+const calculateYPosition = (index) => {
+  const rowIndex = Math.floor(index / 6);
+  if (index >= 24) {
+    // Возвращаем новую строку с увеличенным отступом
+    return 22 + heightCard * (rowIndex - 4) + 20 * (rowIndex - 4);
+  } else {
+    // Возвращаем первую строку
+    return 8 + heightCard * rowIndex + 20 * rowIndex;
+  }
+};
 
 onMounted(() => {
   // dragAndDropContainer.value = document.querySelector('.drag-n-drop-container')
@@ -86,7 +96,7 @@ onMounted(() => {
           :key="index"
           :initial-value="{
             x: 400 + 160 * (index % 6),
-            y: 8 + heightCard * Math.floor(index / 6) + 20 * Math.floor(index / 6)
+            y: calculateYPosition(index)
           }"
           :prevent-default="true"
           :on-start="() => dragStart(index)"
