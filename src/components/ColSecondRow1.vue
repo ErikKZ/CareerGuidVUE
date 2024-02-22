@@ -45,7 +45,7 @@ const onDragUpdate = (position) => {
   }
 
   if (position.y < parentRef.top || position.y > parentRef.bottom - heightCard) {
-    position.y = Math.max(parentRef.top, Math.min(position.y, parentRef.bottom))
+    position.y = Math.max(parentRef.top, Math.min(position.y, parentRef.bottom - heightCard))
   }
 }
 
