@@ -5,6 +5,7 @@ import ColSecondRow1 from '@/components/ColSecondRow1.vue'
 import ColSecondRow2 from '@/components/ColSecondRow2.vue'
 import ColThird from '@/components/ColThird.vue'
 import QueryConsult from '@/components/QueryConsult.vue'
+import ResultModal from '@/components/ResultModal.vue'
 // import { computed } from 'vue';
 
 const colSecRow2Store = useColSecRow2Store();
@@ -15,6 +16,7 @@ const colSecRow2Store = useColSecRow2Store();
   <div 
     class="flex flex-row w-screen justify-center relative min-h-screen">
     <QueryConsult />
+    <ResultModal />
     <col-first />
     <div 
       :class="{
