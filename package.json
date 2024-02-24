@@ -11,10 +11,9 @@
     "format": "prettier --write src/"
   },
   "dependencies": {
-    "@vuelidate/core": "^2.0.3",
-    "@vuelidate/validators": "^2.0.4",
     "@vueuse/components": "^10.7.2",
     "@vueuse/core": "^10.7.2",
+    "async-validator": "^4.2.5",
     "pinia": "^2.1.7",
     "vue": "^3.3.11",
     "vue-drag-resize": "^1.5.4",

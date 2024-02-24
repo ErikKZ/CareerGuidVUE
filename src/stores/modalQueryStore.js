@@ -11,7 +11,7 @@ export const useModalQueryStore = defineStore('modalQueryStore', () => {
   
   const openModalResult = () => {
     isModalResultOpen.value = true
-    console.log('openModalResult')
+    // console.log('openModalResult')
   }
   const closeModalResult = () => {
     isModalResultOpen.value = false

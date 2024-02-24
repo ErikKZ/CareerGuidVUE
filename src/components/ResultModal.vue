@@ -3,7 +3,6 @@ import { ref } from 'vue';
 import { useModalQueryStore } from '@/stores/modalQueryStore';
 
 const modalQueryStore = useModalQueryStore();
-const textArea = ref(null);
 
 console.log(modalQueryStore.isModalResultOpen)
 
@@ -28,6 +27,20 @@ const saveToLocalStorage = () => {
   localStorage.setItem('savedQuerySteps', JSON.stringify(stepsData));
   modalQueryStore.closeModalResult();
 };
+
+
+const resetData = () => {
+  const savedData = localStorage.getItem('savedQuerySteps');
+  steps.value = savedData ? JSON.parse(savedData) : [{ title: '', deadline: '', criteria: '', help: '' }];
+};
+
+const loadDataFromLocalStorage = () => {
+  const savedData = localStorage.getItem('savedQuerySteps');
+  steps.value = savedData ? JSON.parse(savedData) : [{ title: '', deadline: '', criteria: '', help: '' }];
+  
+};
+
+loadDataFromLocalStorage();
 </script>
 
 <template>
@@ -66,7 +79,7 @@ const saveToLocalStorage = () => {
       <button @click="saveToLocalStorage" class="mt-4 w-40 transition cursor-pointer bg-blue-500 rounded-3xl py-3 uppercase text-xs font-bold text-white disabled:bg-slate-300 hover:bg-lime-600 active:bg-lime-700">Сохранить</button>
 
       <!-- Кнопка закрытия модального окна -->
-      <div @click="() => modalQueryStore.closeModalResult()" class="absolute right-4 top-4 text-2xl text-gray-500 cursor-pointer hover:text-red-500">
+      <div @click="() => {resetData(); modalQueryStore.closeModalResult()}" class="absolute right-4 top-4 text-2xl text-gray-500 cursor-pointer hover:text-red-500">
         <svg aria-hidden="true" focusable="false" data-prefix="fas" data-icon="xmark" class="svg-inline--fa fa-xmark" role="img" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 384 512" width="20" height="20">
           <path fill="black" d="M342.6 150.6c12.5-12.5 12.5-32.8 0-45.3s-32.8-12.5-45.3 0L192 210.7 86.6 105.4c-12.5-12.5-32.8-12.5-45.3 0s-12.5 32.8 0 45.3L146.7 256 41.4 361.4c-12.5 12.5-12.5 32.8 0 45.3s32.8 12.5 45.3 0L192 301.3 297.4 406.6c12.5 12.5 32.8 12.5 45.3 0s12.5-32.8 0-45.3L237.3 256 342.6 150.6z"></path>
         </svg>
