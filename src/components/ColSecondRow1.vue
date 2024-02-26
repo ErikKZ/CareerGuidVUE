@@ -51,6 +51,8 @@ const onDragUpdate = (position) => {
 
 const onDblClickImg = (id, idType) => {
   colStore.removeCardSelected(id, idType)
+  colStore.selectedArray = colStore.getCardsForRow2(idType);
+
 }
 
 const cardsRow1ToDisplay = computed(() => {
