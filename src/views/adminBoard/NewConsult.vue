@@ -1,5 +1,6 @@
 <script setup>
-import { ref, onMounted } from 'vue'
+import { v4 as uuidv4 } from 'uuid';
+import { ref } from 'vue'
 import { useModalNewConsultStore } from '@/stores/modalNewConsultStore'
 
 // const modalNewConsultStore = useModalNewConsultStore();
@@ -15,6 +16,8 @@ const comment = ref('');
 
 const saveToLocalStorage = (event) => {
   event.preventDefault();
+
+  const token = uuidv4();
   // Создаем объект с данными формы
   const formData = {
     date: date.value,
@@ -24,6 +27,7 @@ const saveToLocalStorage = (event) => {
     city: city.value,
     contact: contact.value,
     comment: comment.value,
+    token: token,
   };
 
   // Получаем существующие данные из локального хранилища
@@ -31,24 +35,25 @@ const saveToLocalStorage = (event) => {
 
   // Добавляем новые данные в массив
   existingData.push(formData);
-console.log(existingData)
+
   // Сохраняем обновленные данные в локальное хранилище
   localStorage.setItem('appointments', JSON.stringify(existingData));
 
   // Закрываем модальное окно после сохранения данных
   modalNewConsult.closeModal();
+
+  resetForm();
 };
 
-onMounted(() => {
-    // Сброс значений при открытии формы
-    date.value = '';
-    time.value = '';
-    firstName.value = '';
-    lastName.value = '';
-    city.value = '';
-    contact.value = '';
-    comment.value = '';
-  });
+const resetForm = () => {
+  date.value = '';
+  time.value = '';
+  firstName.value = '';
+  lastName.value = '';
+  city.value = '';
+  contact.value = '';
+  comment.value = '';
+};
 
 </script>
 
@@ -111,15 +116,17 @@ onMounted(() => {
       </div>
       <div class="flex justify-end space-x-4">
         <button
-          @click="() => { resetForm(); modalNewConsult.closeModal(); }"
+        @click="() => { resetForm(); modalNewConsult.closeModal();}"
           class="py-2 px-4 border border-transparent rounded-md text-white bg-indigo-600 hover:bg-indigo-700"
         >
           Отмена
         </button>
         <button
           type="submit"
-          @click= saveToLocalStorage()
-          class="py-2 px-4 border border-transparent rounded-md text-white bg-indigo-600 hover:bg-indigo-700"
+          @click="saveToLocalStorage"
+          class="py-2 px-4 border bo
+          
+          rder-transparent rounded-md text-white bg-indigo-600 hover:bg-indigo-700"
         >
           Назначить
         </button>
