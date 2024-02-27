@@ -1,9 +1,54 @@
 <script setup>
+import { ref, onMounted } from 'vue'
 import { useModalNewConsultStore } from '@/stores/modalNewConsultStore'
 
 // const modalNewConsultStore = useModalNewConsultStore();
 const modalNewConsult = useModalNewConsultStore()
 
+const date = ref('');
+const time = ref('');
+const firstName = ref('');
+const lastName = ref('');
+const city = ref('');
+const contact = ref('');
+const comment = ref('');
+
+const saveToLocalStorage = (event) => {
+  event.preventDefault();
+  // Создаем объект с данными формы
+  const formData = {
+    date: date.value,
+    time: time.value,
+    firstName: firstName.value,
+    lastName: lastName.value,
+    city: city.value,
+    contact: contact.value,
+    comment: comment.value,
+  };
+
+  // Получаем существующие данные из локального хранилища
+  const existingData = JSON.parse(localStorage.getItem('appointments')) || [];
+
+  // Добавляем новые данные в массив
+  existingData.push(formData);
+console.log(existingData)
+  // Сохраняем обновленные данные в локальное хранилище
+  localStorage.setItem('appointments', JSON.stringify(existingData));
+
+  // Закрываем модальное окно после сохранения данных
+  modalNewConsult.closeModal();
+};
+
+onMounted(() => {
+    // Сброс значений при открытии формы
+    date.value = '';
+    time.value = '';
+    firstName.value = '';
+    lastName.value = '';
+    city.value = '';
+    contact.value = '';
+    comment.value = '';
+  });
 
 </script>
 
@@ -18,7 +63,7 @@ const modalNewConsult = useModalNewConsultStore()
         <label for="date" class="block text-sm font-medium">Дата</label>
         <input
           type="date"
-          id="date"
+          v-model="date"
           class="mt-1 block w-full py-2 px-3 border border-gray-300 rounded-md"
         />
       </div>
@@ -26,53 +71,54 @@ const modalNewConsult = useModalNewConsultStore()
         <label for="time" class="block text-sm font-medium">Время</label>
         <input
           type="time"
-          id="time"
+          v-model="time"
           class="mt-1 block w-full py-2 px-3 border border-gray-300 rounded-md"
         />
       </div>
       <div>
         <label for="firstName" class="block text-sm font-medium">Имя</label>
         <input
-          id="firstName"
+          v-model="firstName"
           class="mt-1 block w-full py-2 px-3 border border-gray-300 rounded-md"
         />
       </div>
       <div>
         <label for="lastName" class="block text-sm font-medium">Фамилия</label>
         <input
-          id="lastName"
+          v-model="lastName"
           class="mt-1 block w-full py-2 px-3 border border-gray-300 rounded-md"
         />
       </div>
       <div>
         <label for="city" class="block text-sm font-medium">Город</label>
-        <input id="city" class="mt-1 block w-full py-2 px-3 border border-gray-300 rounded-md" />
+        <input v-model="city" class="mt-1 block w-full py-2 px-3 border border-gray-300 rounded-md" />
       </div>
       <div>
         <label for="contact" class="block text-sm font-medium">Контакт</label>
         <input
           type="contact"
-          id="contact"
+          v-model="contact"
           class="mt-1 block w-full py-2 px-3 border border-gray-300 rounded-md"
         />
       </div>
       <div>
         <label for="comment" class="block text-sm font-medium">Комментарий</label>
         <textarea
-          id="comment"
+          v-model="comment"
           rows="3"
           class="mt-1 block w-full py-2 px-3 border border-gray-300 rounded-md"
         ></textarea>
       </div>
       <div class="flex justify-end space-x-4">
         <button
-          @click="() => modalNewConsult.closeModal()"
+          @click="() => { resetForm(); modalNewConsult.closeModal(); }"
           class="py-2 px-4 border border-transparent rounded-md text-white bg-indigo-600 hover:bg-indigo-700"
         >
           Отмена
         </button>
         <button
           type="submit"
+          @click= saveToLocalStorage()
           class="py-2 px-4 border border-transparent rounded-md text-white bg-indigo-600 hover:bg-indigo-700"
         >
           Назначить

@@ -22,7 +22,6 @@ const modalQueryStore = useModalQueryStore()
         @click="() => modalQueryStore.openModalResult()"
         class="mt-4 transition cursor-pointer bg-blue-500 w-full rounded-3xl py-3 uppercase text-xs font-bold text-white disabled:bg-slate-300 hover:bg-lime-600 active:bg-lime-700"
       >
-        
         Окно результатов
       </button>
     </div>
