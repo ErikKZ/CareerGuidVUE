@@ -1,6 +1,5 @@
 <!-- eslint-disable vue/multi-word-component-names -->
 <script setup>
-import Clipboard from 'clipboard'
 import { useClipboard } from '@vueuse/core';
 
 import { ref } from 'vue'
@@ -12,31 +11,9 @@ import NewConsult from './NewConsult.vue'
 const copyToClipboard = (url) => {
     const { copy, copied } = useClipboard();
     copy(url);
-
     // Теперь 'copied' будет содержать информацию о том, скопирован ли токен.
   };
 
-// const clipboard = new Clipboard('.text-blue-500')
-
-// const copyToClipboard = (token) => {
-//   const clipboard = new Clipboard('.text-blue-500')
-//   // console.log(clipboard)
-//   clipboard.on('success', (e) => {
-//     e.clearSelection()
-//     showNotification('Токен скопирован в буфер обмена!')
-//   })
-
-//   clipboard.on('error', () => {
-//     showNotification('Не удалось скопировать токен в буфер обмена.')
-//   })
-
-//   clipboard.destroy()
-// }
-
-// const showNotification = (message) => {
-//   // Реализуйте отображение уведомления, например, используя библиотеку для уведомлений
-//   console.log(message)
-// }
 
 const modalNewConsultStore = useModalNewConsultStore()
 
