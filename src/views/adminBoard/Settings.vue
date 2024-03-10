@@ -1,9 +1,16 @@
 <!-- eslint-disable vue/multi-word-component-names -->
 <script setup>
-import { ref } from 'vue'
+import { ref, onMounted } from 'vue'
 
 const fileInputRef = ref(null)
 const imgSrc = ref('')
+
+let formData = {
+  name: '',
+  specialization: '',
+  email: '',
+  phone: ''
+}
 
 function handleClick() {
   fileInputRef.value.click()
@@ -22,6 +29,23 @@ function handleFileUpload(event) {
     reader.readAsDataURL(file)
   }
 }
+
+function saveDataToLocal() {
+  localStorage.setItem('imgSrc', imgSrc.value)
+  localStorage.setItem('formData', JSON.stringify(formData))
+}
+
+onMounted(() => {
+  const savedImgSrc = localStorage.getItem('imgSrc')
+  if (savedImgSrc) {
+    imgSrc.value = savedImgSrc
+  }
+
+  const savedFormData = localStorage.getItem('formData')
+  if (savedFormData) {
+    Object.assign(formData, JSON.parse(savedFormData))
+  }
+})
 </script>
 
 <template>
@@ -52,26 +76,26 @@ function handleFileUpload(event) {
             </div>
           </div>
         </div>
-        <form class="col-span-2">
+        <form class="col-span-2"  @submit.prevent="handleSubmit">
           <div class="flex flex-col mb-4">
             <span class="font-bold mb-2 ml-0.5">Имя Фамилия</span
-            ><input class="rounded-xl border-2 p-3" type="text" value="" name="name" />
+            ><input v-model="formData.name" class="rounded-xl border-2 p-3" type="text" value="" name="name" />
           </div>
           <div class="flex flex-col mb-4">
             <span class="font-bold mb-2 ml-0.5">Специализация</span
-            ><input class="rounded-xl border-2 p-3" type="text" value="" name="specialization" />
+            ><input  v-model="formData.specialization" class="rounded-xl border-2 p-3" type="text" value="" name="specialization" />
           </div>
           <div class="flex flex-col mb-4">
             <span class="font-bold mb-2 ml-0.5">Почта</span
-            ><input class="rounded-xl border-2 p-3" type="email" value="" name="email" />
+            ><input v-model="formData.email" class="rounded-xl border-2 p-3" type="email" value="" name="email" />
           </div>
           <div class="flex flex-col mb-4">
             <span class="font-bold mb-2 ml-0.5">Телефон</span
-            ><input class="rounded-xl border-2 p-3" type="text" value="" name="phone" />
+            ><input v-model="formData.phone" class="rounded-xl border-2 p-3" type="text" value="" name="phone" />
           </div>
         </form>
         <div class="col-span-3 text-center mt-8">
-          <button class="primary-button" type="submit">Сохранить</button>
+          <button class="primary-button" @click="saveDataToLocal">Сохранить</button>
         </div>
       </div>
     </div>
